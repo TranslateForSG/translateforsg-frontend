@@ -6,7 +6,7 @@
             <p v-if="!row.audio_clips[this.selectedLanguage]" class="smallText">No Audio</p>
         </div>
         <footer class="modal-card-foot">
-            <div class="block center-block" >
+            <div class="block center-block">
                 <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous">
                     Previous
                 </b-button>
@@ -35,6 +35,7 @@
                 isPlaying: false,
                 isLoading: true,
                 currentSoundTrack: null,
+                currentTrackId: null,
                 innerRowIndex: null,
             }
         },
@@ -75,33 +76,31 @@
                             component.isPlaying = false;
                         }
                     });
+                    this.currentTrackId = this.currentSoundTrack.play();
                     this.trackPlay();
                 }
             },
+            stopPlaying() {
+                if (!this.currentSoundTrack) return;
+                this.currentSoundTrack.stop();
+            },
             closeModal() {
-                if (this.currentSoundTrack && this.isPlaying) {
-                    this.currentSoundTrack.stop();
-                }
+                this.stopPlaying();
                 this.$parent.close();
             },
             previousTrack() {
-                if (this.currentSoundTrack && this.isPlaying) {
-                    this.currentSoundTrack.stop();
-                }
+                this.stopPlaying();
                 if (this.innerRowIndex > 0) {
                     this.innerRowIndex--;
+                    this.playAudio();
                 }
-                this.playAudio();
             },
             nextTrack() {
-                if (this.currentSoundTrack && this.isPlaying) {
-                    this.currentSoundTrack.stop();
-                }
-
+                this.stopPlaying();
                 if (this.innerRowIndex < this.data.length - 1) {
                     this.innerRowIndex++;
+                    this.playAudio();
                 }
-                this.playAudio();
             }
         },
     }
@@ -119,6 +118,7 @@
     }
 
     .center-block {
-        margin-left: auto; margin-right: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>

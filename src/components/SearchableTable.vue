@@ -11,6 +11,7 @@
                 </b-select>
             </b-field>
             <b-field custom-class="is-large" style="justify-content: center">
+                <span></span>
                 <b-select size="large" placeholder="Select a category" v-model="selectedCategory">
                     <option v-for="category in categories" :key="category.name"
                             :value="category.name">
