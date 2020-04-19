@@ -3,12 +3,6 @@
         <div class="block">
             <b-field custom-class="is-large" style="justify-content: center">
                 <b-input v-model="searchText" placeholder="Search..." icon-right="search"></b-input>
-                <b-select size="large" placeholder="Select a category" v-model="selectedCategory">
-                    <option v-for="category in categories" :key="category.name"
-                            :value="category.name">
-                        {{ category.name }}
-                    </option>
-                </b-select>
                 <b-select size="large" placeholder="Language" v-model="selectedLanguages">
                     <option v-for="language in languages" :key="language.name"
                             :value="language.name">
@@ -16,9 +10,16 @@
                     </option>
                 </b-select>
             </b-field>
+            <b-field custom-class="is-large" style="justify-content: center">
+                <b-select size="large" placeholder="Select a category" v-model="selectedCategory">
+                    <option v-for="category in categories" :key="category.name"
+                            :value="category.name">
+                        {{ category.name }}
+                    </option>
+                </b-select>
+            </b-field>
         </div>
-        <b-table id="phrasebookTable"
-                 :data="visibleRows">
+        <b-table id="phrasebookTable" :data="visibleRows">
             <template slot-scope="props">
                 <b-table-column
                         field="summary"
@@ -36,7 +37,7 @@
                 ><div class="is-vcentered"> {{ props.row.translations[selectedLanguages] }}</div>
                 </b-table-column>
                 <b-table-column>
-                    <b-button icon-left="play" @click="openPreview(props.row)">Play</b-button>
+                    <b-button icon-left="play" type="is-primary" @click="openPreview(props.row)">Play</b-button>
                 </b-table-column>
             </template>
         </b-table>

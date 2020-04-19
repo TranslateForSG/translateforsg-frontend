@@ -2,13 +2,6 @@
     <div>
         <Navbar/>
         <div class="container">
-            <div class="is-hidden-tablet" style="margin-bottom: 20px;">
-                <a class="button is-warning is-large" @click="openVolunteerTable">
-                    <b-icon icon="phone"
-                            size="is-large"></b-icon>
-                    <strong>Translator On Call</strong>
-                </a>
-            </div>
             <SearchableTable></SearchableTable>
         </div>
         <div class="footer">

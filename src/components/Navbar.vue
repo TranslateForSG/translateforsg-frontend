@@ -20,16 +20,6 @@
         </template>
 
         <template slot="end">
-            <b-navbar-item>
-                <div class="buttons">
-                    <a class="button is-white" @click="openVolunteerTable">
-                        <b-icon
-                                icon="phone"
-                                size="is-small"></b-icon>
-                        <strong>Translator On Call</strong>
-                    </a>
-                </div>
-            </b-navbar-item>
         </template>
     </b-navbar>
 </template>

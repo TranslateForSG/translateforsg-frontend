@@ -64,7 +64,6 @@
                 .then(response => {
                     this.data = response.data.results;
                 });
-            console.log(process.env);
             axios
                 .get('https://api.translatefor.sg/api/v1/languages')
                 .then(response => {
