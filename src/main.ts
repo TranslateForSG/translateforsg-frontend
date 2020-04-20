@@ -6,6 +6,7 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueAnalytics from 'vue-analytics'
+import '@mdi/font/css/materialdesignicons.min.css'
 
 Vue.use(VueAnalytics, {
   id: 'UA-98792383-4',

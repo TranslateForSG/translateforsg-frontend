@@ -4,6 +4,7 @@
         <div class="container">
             <SearchableTable></SearchableTable>
         </div>
+        <br>
         <div class="footer">
             Developed by <a href="https://github.com/aniruddha-adhikary">Aniruddha Adhikary</a>. Content contributed by Sudesna, Soumil, and others. (Soon to be updated)
         </div>

@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
     {
-        path: '/',
+        path: '/:language?/:category?',
         name: 'Home',
         component: Home,
         meta: {
