@@ -2,46 +2,38 @@
     <section>
         <div class="block">
             <b-field custom-class="is-large" style="justify-content: center">
+                <span></span>
                 <b-input v-model="searchText" placeholder="Search..." icon-right="search"></b-input>
-                <b-select size="large" placeholder="Language" v-model="selectedLanguages">
-                    <option v-for="language in languages" :key="language.name"
-                            :value="language.name">
-                        {{ language.name }}
-                    </option>
-                </b-select>
             </b-field>
             <b-field custom-class="is-large" style="justify-content: center">
-                <span></span>
                 <b-select size="large" placeholder="Select a category" v-model="selectedCategory">
                     <option v-for="category in categories" :key="category.name"
                             :value="category.name">
                         {{ category.name }}
                     </option>
                 </b-select>
+                <b-select size="large" placeholder="Language" v-model="selectedLanguage">
+                    <option v-for="language in languages" :key="language.name"
+                            :value="language.name">
+                        {{ language.name }} ({{ language.native_name }})
+                    </option>
+                </b-select>
             </b-field>
         </div>
         <b-table id="phrasebookTable" :data="visibleRows">
             <template slot-scope="props">
-                <b-table-column
-                        field="summary"
-                        label="Summary"
-                ><p> {{ props.row.summary }}</p>
+                <b-table-column field="content" label="English"><p> {{ props.row.phrase.content }} </p>
                 </b-table-column>
-                <b-table-column
-                        field="content"
-                        label="English"
-                ><p> {{ props.row.content }}</p>
-                </b-table-column>
-                <b-table-column
-                        :field="selectedLanguages"
-                        :label="selectedLanguages"
-                ><div class="is-vcentered"> {{ props.row.translations[selectedLanguages] }}</div>
+                <b-table-column :field="selectedLanguage" :label="selectedLanguage"
+                >
+                    <div class="is-vcentered"> {{ props.row.content }}</div>
                 </b-table-column>
                 <b-table-column>
                     <b-button icon-left="play" type="is-primary" @click="openPreview(props.row)">Play</b-button>
                 </b-table-column>
             </template>
         </b-table>
+        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
     </section>
 </template>
 
@@ -52,25 +44,7 @@
     export default {
         name: "SearchableTable",
         mounted() {
-            axios
-                .get('https://api.translatefor.sg/api/v1/phrases')
-                .then(response => {
-                    const data = response.data.results;
-
-                    let i = 0;
-                    for (const phrase of data) {
-                        const trs = {};
-                        const audioClips = {};
-                        phrase['order'] = i++;
-                        for (const translation of phrase.translations) {
-                            trs[translation['language']] = translation['content'];
-                            audioClips[translation['language']] = translation['audio_clip'];
-                        }
-                        phrase['translations'] = trs;
-                        phrase['audio_clips'] = audioClips;
-                    }
-                    this.data = data;
-                });
+            this.getListing();
             axios
                 .get('https://api.translatefor.sg/api/v1/languages')
                 .then(response => {
@@ -88,24 +62,27 @@
                 data: [],
                 languages: [],
                 categories: [],
-                selectedLanguages: 'Bengali',
+                selectedLanguage: 'Bengali',
                 selectedCategory: 'All Categories',
                 columns: [],
                 searchText: '',
+                isLoading: true,
             }
+        },
+        watch: {
+            selectedLanguage: function() {
+                this.getListing();
+            },
+            selectedCategory: function() {
+                this.getListing();
+            },
         },
         computed: {
             visibleRows: function () {
-                let data = this.data;
-                data = data.filter(row => (this.selectedCategory === 'All Categories') || row.category === this.selectedCategory);
-
-                const searchQuery = this.searchText.trim().toLowerCase();
-
-                if (searchQuery) {
-                    data = data.filter(row => (row.content.toLowerCase().includes(searchQuery)));
+                if (this.searchText) {
+                    return this.data.filter(row => (row.phrase.content.toLowerCase().includes(this.searchText.toLowerCase())))
                 }
-
-                return data;
+                return this.data;
             }
         },
         methods: {
@@ -117,9 +94,33 @@
                     props: {
                         data: this.data,
                         rowIndex: row.order,
-                        selectedLanguage: this.selectedLanguages
+                        selectedLanguage: this.selectedLanguage
                     }
                 })
+            },
+            getListing() {
+                this.isLoading = true;
+
+                const url = new URL('https://api.translatefor.sg/api/v1/translations');
+                url.searchParams.append('language__name', this.selectedLanguage);
+                if (this.selectedCategory && this.selectedCategory !== 'All Categories') {
+                    url.searchParams.append('phrase__category__name', this.selectedCategory);
+                }
+                // if (this.searchText && this.searchText.length > 3) {
+                //     url.searchParams.append('search', this.searchText);
+                // }
+
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
+                const component = this;
+
+                axios
+                    .get(url.toString())
+                    .then(response => {
+                        let i = 0;
+                        response.data.results.forEach(row => row.order = i++);
+                        this.data = response.data.results;
+                        component.isLoading = false;
+                    });
             }
         }
     }

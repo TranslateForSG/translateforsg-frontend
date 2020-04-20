@@ -1,16 +1,16 @@
 <template>
     <div class="card" v-if="row" @keydown.left="previousTrack" @keydown.right="nextTrack">
         <div class="card-content" v-touch:swipe.left="nextTrack" v-touch:swipe.right="previousTrack">
-            <p class="smallText">{{ row.content }}</p>
-            <p class="largeText">{{ row.translations[this.selectedLanguage] }}</p>
-            <p v-if="!row.audio_clips[this.selectedLanguage]" class="smallText">No Audio</p>
+            <p class="smallText">{{ row.phrase.content }}</p>
+            <p class="largeText">{{ row.content }}</p>
+            <p v-if="!row.audio_clip" class="smallText">No Audio</p>
         </div>
         <footer class="modal-card-foot">
             <div class="block center-block">
                 <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous">
                     Previous
                 </b-button>
-                <b-button v-if="row.audio_clips[this.selectedLanguage] && !isLoading" class="is-centered"
+                <b-button v-if="row.audio_clip && !isLoading" class="is-centered"
                           icon-left="play" :type="isPlaying ? 'is-light': 'is-success'" @click="playAudio">
                     Play Again
                 </b-button>
@@ -49,16 +49,8 @@
             }
         },
         methods: {
-            trackPlay() {
-                this.$ga.event({
-                    eventCategory: 'Translations',
-                    eventAction: 'Viewed',
-                    eventLabel: 'Entry',
-                    eventValue: this.row.summary
-                });
-            },
             playAudio() {
-                const audioClip = this.row.audio_clips[this.selectedLanguage];
+                const audioClip = this.row.audio_clip;
                 if (audioClip) {
                     // eslint-disable-next-line @typescript-eslint/no-this-alias
                     const component = this;
@@ -77,12 +69,11 @@
                         }
                     });
                     this.currentTrackId = this.currentSoundTrack.play();
-                    this.trackPlay();
                 }
             },
             stopPlaying() {
                 if (!this.currentSoundTrack) return;
-                this.currentSoundTrack.stop();
+                this.currentSoundTrack.unload();
             },
             closeModal() {
                 this.stopPlaying();
