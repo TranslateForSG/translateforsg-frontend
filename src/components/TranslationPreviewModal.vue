@@ -7,8 +7,9 @@
         </div>
         <footer class="modal-card-foot">
             <div class="block center-block">
-                <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous">
-                    Previous
+                <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous"
+                          v-if="data[innerRowIndex - 1]">
+                    {{ data[innerRowIndex - 1].phrase.summary }}
                 </b-button>
                 <b-button v-if="row.audio_clip && !isLoading" class="is-centered"
                           icon-left="play" :type="isPlaying ? 'is-light': 'is-success'" @click="playAudio">
@@ -16,7 +17,9 @@
                 </b-button>
                 <b-button v-if="isLoading" class="is-centered" icon-left="play" :type="'is-warning'">Loading...
                 </b-button>
-                <b-button class="is-centered" type="is-link" @click="nextTrack" icon-right="skip-next">Next
+                <b-button class="is-centered" type="is-link" @click="nextTrack" icon-right="skip-next"
+                          v-if="data[innerRowIndex + 1]">
+                    {{ data[innerRowIndex + 1].phrase.summary }}
                 </b-button>
             </div>
         </footer>
@@ -111,5 +114,10 @@
     .center-block {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .card-content {
+        max-height: 70vh;
+        overflow-y: scroll;
     }
 </style>

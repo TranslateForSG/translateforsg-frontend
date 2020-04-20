@@ -6,7 +6,8 @@
         </div>
         <br>
         <div class="footer">
-            Developed by <a href="https://github.com/aniruddha-adhikary">Aniruddha Adhikary</a>. Content contributed by Sudesna, Soumil, and others. (Soon to be updated)
+            Developed by <a href="https://github.com/aniruddha-adhikary">Aniruddha Adhikary</a>.
+            Content and design contributed by Sudesna, Soumil, better.sg, Ratul Saha, and others.
         </div>
     </div>
 </template>
