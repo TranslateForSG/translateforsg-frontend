@@ -6,8 +6,9 @@
         </div>
         <br>
         <div class="footer">
-            Developed by <a href="https://github.com/aniruddha-adhikary">Aniruddha Adhikary</a>.
-            Content and design contributed by Sudesna, Soumil, better.sg, Ratul Saha, and others.
+            <p>Developed, hosted and maintained by <a href="https://adhikary.net">Aniruddha Adhikary (Ani)</a>.</p>
+            <p>The <a @click="openContributorList">most amazing people on the planet</a> contributed the Content, feedback and design.</p>
+            <p>Open Source. Source code available on <a href="https://github.com/aniruddha-adhikary/translateforsg-frontend">GitHub</a></p>
         </div>
     </div>
 </template>
@@ -16,7 +17,7 @@
     // @ is an alias to /src
     import SearchableTable from "@/components/SearchableTable";
     import Navbar from "@/components/Navbar";
-    import VolunteerTable from "@/components/VolunteerTable";
+    import ContributorList from "@/components/ContributorList";
 
     export default {
         name: 'Home',
@@ -25,10 +26,10 @@
             Navbar
         },
         methods: {
-            openVolunteerTable() {
+            openContributorList() {
                 this.$buefy.modal.open({
                     parent: this,
-                    component: VolunteerTable,
+                    component: ContributorList,
                     hasModalCard: true
                 })
             }

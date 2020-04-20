@@ -25,19 +25,8 @@
 </template>
 
 <script>
-    import VolunteerTable from "@/components/VolunteerTable";
-
     export default {
-        name: "Navbar",
-        methods: {
-            openVolunteerTable() {
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: VolunteerTable,
-                    hasModalCard: true
-                })
-            }
-        }
+        name: "Navbar"
     }
 </script>
 
