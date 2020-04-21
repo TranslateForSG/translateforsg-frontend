@@ -45,7 +45,7 @@
                 </b-button>
             </div>
             <div class="block">
-                <b-button class="fixed-button" size="is-large" @click="$router.back()" icon-left="arrow-left">Go Back
+                <b-button class="fixed-button" size="is-large" @click="goBackCategoryChoice()" icon-left="arrow-left">Go Back
                 </b-button>
             </div>
         </section>
@@ -170,6 +170,12 @@
                         return i;
                     }
                 }
+            },
+            goBackCategoryChoice() {
+                const splitPath = this.$route.path.split('/');
+                splitPath.pop();
+                const newPath = splitPath.join('/');
+                this.$router.push({path: newPath});
             },
             goNextCategory() {
                 const splitPath = this.$route.path.split('/');
