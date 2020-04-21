@@ -1,10 +1,22 @@
 import Vue from 'vue'
 import VueRouter, {RouteConfig} from 'vue-router'
 import Home from '../views/Home.vue'
+import SayThanks from '../views/SayThanks.vue'
+import ContributorList from "@/views/ContributorList.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
+    {
+        path: '/thanks',
+        name: 'Say Thanks',
+        component: SayThanks
+    },
+    {
+        path: '/contributors',
+        name: 'Contributors',
+        component: ContributorList
+    },
     {
         path: '/:language?/:category?',
         name: 'Home',

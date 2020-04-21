@@ -2,7 +2,10 @@
     <div>
         <Navbar/>
         <div class="container">
-            <SearchableTable></SearchableTable>
+            <div class="block">
+                Maybe some kind words for our volunteers!
+            </div>
+            <vue-disqus shortname="translatefor-sg" identifier="translateforsg" url="https://translatefor.sg"></vue-disqus>
         </div>
         <br>
         <Footer></Footer>
@@ -11,16 +14,15 @@
 
 <script>
     // @ is an alias to /src
-    import SearchableTable from "@/components/SearchableTable";
     import Navbar from "@/components/Navbar";
-    import ContributorList from "@/views/ContributorList";
+    import VueDisqus from "@/components/VueDisqus";
     import Footer from "@/components/Footer";
 
     export default {
         name: 'Home',
         components: {
             Footer,
-            SearchableTable,
+            VueDisqus,
             Navbar
         }
     }
@@ -29,5 +31,6 @@
 <style>
     .container {
         padding-top: 40px;
+        margin: 0 20px !important;
     }
 </style>

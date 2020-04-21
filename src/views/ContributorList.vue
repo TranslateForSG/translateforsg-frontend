@@ -1,6 +1,7 @@
 <template>
-    <div class="card">
-        <div class="card-content has-text-centered">
+    <div>
+        <Navbar></Navbar>
+        <div class="container">
             <article class="message">
                 <div class="message-header">
                     <p>Our Contributors</p>
@@ -13,19 +14,29 @@
             </article>
             <br>
             <div class="credits">
-                <span v-for="contributor of contributors" :key="contributor.id" v-bind:style="{ fontSize: getRandomSize() + 'px' }">{{ contributor.name }}</span>
+            <span v-for="contributor of contributors" :key="contributor.id"
+                  v-bind:style="{ fontSize: getRandomSize() + 'px' }">{{ contributor.name }}</span>
             </div>
             <br>
-            <div>Missing from the list? Submit your name <a href="https://forms.gle/KNiSteMC4arNPtGN8">here</a>.</div>
+            <div>
+                <b-button icon-left="heart" tag="router-link" to="/thanks" type="is-primary">Say Thanks</b-button>
+                <br><br>
+                <p>Missing from the list? Submit your name <a href="https://forms.gle/KNiSteMC4arNPtGN8">here</a>.</p>
+            </div>
         </div>
+        <br>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import Footer from "@/components/Footer";
+    import Navbar from "@/components/Navbar";
 
     export default {
         name: "ContributorList",
+        components: {Footer, Navbar},
         data() {
             return {
                 contributors: []
@@ -49,11 +60,6 @@
 </script>
 
 <style scoped>
-    .credits {
-        max-height: 40vh;
-        overflow-y: scroll;
-    }
-
     .credits span {
         margin: 5px;
     }

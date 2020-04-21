@@ -12,8 +12,11 @@
             <b-navbar-item @click="openOurStory()">
                 Our Story
             </b-navbar-item>
-            <b-navbar-item @click="openContributorList()">
+            <b-navbar-item tag="router-link" to="/contributors">
                 Contributors
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" to="/thanks">
+                Say Thanks
             </b-navbar-item>
         </template>
 
@@ -24,7 +27,6 @@
 
 <script>
     import TheStory from "@/components/TheStory";
-    import ContributorList from "@/components/ContributorList";
 
     export default {
         name: "Navbar",
@@ -33,13 +35,6 @@
                 this.$buefy.modal.open({
                     parent: this,
                     component: TheStory,
-                    hasModalCard: true
-                })
-            },
-            openContributorList() {
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: ContributorList,
                     hasModalCard: true
                 })
             }
