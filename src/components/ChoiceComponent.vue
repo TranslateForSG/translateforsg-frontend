@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="full-width">
         <div class="block" v-if="$route.params.language">
             <h2 class="title">{{$route.params.language}}</h2>
         </div>
@@ -31,5 +31,9 @@
     .fixed-button {
         width: 90%;
         max-width: 400px;
+    }
+
+    .full-width {
+        width: 100%;
     }
 </style>

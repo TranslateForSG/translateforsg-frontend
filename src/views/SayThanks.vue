@@ -2,10 +2,12 @@
     <div>
         <Navbar/>
         <div class="container">
-            <div class="block">
-                Maybe some kind words for our volunteers!
+            <div class="inner-container">
+                <div class="block">
+                    Maybe some kind words for our volunteers!
+                </div>
+                <vue-disqus shortname="translatefor-sg" identifier="translateforsg" url="https://translatefor.sg"></vue-disqus>
             </div>
-            <vue-disqus shortname="translatefor-sg" identifier="translateforsg" url="https://translatefor.sg"></vue-disqus>
         </div>
         <br>
         <Footer></Footer>
@@ -32,5 +34,10 @@
     .container {
         padding-top: 40px;
         margin: 0 20px !important;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <ChoiceComponent v-if="!selectedCategory && !selectedLanguage" :choices="languageChoices"></ChoiceComponent>
         <ChoiceComponent v-if="!selectedCategory && selectedLanguage" :choices="categoryChoices"></ChoiceComponent>
         <section v-if="selectedCategory && selectedLanguage">

@@ -1,9 +1,7 @@
 <template>
     <div>
         <Navbar/>
-        <div class="container">
-            <SearchableTable></SearchableTable>
-        </div>
+        <SearchableTable></SearchableTable>
         <br>
         <Footer></Footer>
     </div>
