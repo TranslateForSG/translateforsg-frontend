@@ -9,14 +9,12 @@
             <b-navbar-item tag="router-link" to="/">
                 Phrasebook
             </b-navbar-item>
-<!--            <b-navbar-dropdown label="Info">-->
-<!--                <b-navbar-item href="#">-->
-<!--                    About-->
-<!--                </b-navbar-item>-->
-<!--                <b-navbar-item href="#">-->
-<!--                    Contact-->
-<!--                </b-navbar-item>-->
-<!--            </b-navbar-dropdown>-->
+            <b-navbar-item @click="openOurStory()">
+                Our Story
+            </b-navbar-item>
+            <b-navbar-item @click="openContributorList()">
+                Contributors
+            </b-navbar-item>
         </template>
 
         <template slot="end">
@@ -25,8 +23,27 @@
 </template>
 
 <script>
+    import TheStory from "@/components/TheStory";
+    import ContributorList from "@/components/ContributorList";
+
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        methods: {
+            openOurStory() {
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: TheStory,
+                    hasModalCard: true
+                })
+            },
+            openContributorList() {
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: ContributorList,
+                    hasModalCard: true
+                })
+            }
+        }
     }
 </script>
 

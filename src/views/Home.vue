@@ -9,6 +9,9 @@
             <p>Developed, hosted and maintained by <a href="https://adhikary.net">Aniruddha Adhikary (Ani)</a>.</p>
             <p>The <a @click="openContributorList">most amazing people on the planet</a> contributed the Content, feedback and design.</p>
             <p>Open Source. Source code available on <a href="https://github.com/aniruddha-adhikary/translateforsg-frontend">GitHub</a></p>
+            <br>
+            <br>
+            <p>This spontaneous volunteer-driven project is not affiliated to any organization.</p>
         </div>
     </div>
 </template>
