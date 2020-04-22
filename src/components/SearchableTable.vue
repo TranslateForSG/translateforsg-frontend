@@ -2,7 +2,7 @@
     <div class="container">
         <ChoiceComponent v-if="!selectedCategory && !selectedLanguage" :choices="languageChoices"></ChoiceComponent>
         <ChoiceComponent v-if="!selectedCategory && selectedLanguage" :choices="categoryChoices"></ChoiceComponent>
-        <section v-if="selectedCategory && selectedLanguage">
+        <section v-if="selectedCategory && selectedLanguage" style="width: 100%">
             <div class="block">
                 <b-field custom-class="is-large" style="justify-content: center">
                     <span></span>
@@ -21,11 +21,11 @@
             </div>
             <b-table id="phrasebookTable" :data="visibleRows">
                 <template slot-scope="props">
-                    <b-table-column field="content" label="English">
-                        <strong>{{ props.row.phrase.content }}</strong>
+                    <b-table-column field="content" label="English" v-if="selectedCategoryObject && (selectedCategoryObject.needs_original_phrase === null || selectedCategoryObject.needs_original_phrase)">
+                        <strong class="pre-line">{{ props.row.phrase.content }}</strong>
                     </b-table-column>
                     <b-table-column :field="selectedLanguage" :label="selectedLanguage">
-                        {{ props.row.content }}
+                        <span class="pre-line">{{ props.row.content }}</span>
                     </b-table-column>
                     <b-table-column>
                         <b-button icon-left="play" type="is-primary" @click="openPreview(props.row)">Play</b-button>
@@ -72,7 +72,8 @@
                 .get('https://api.translatefor.sg/api/v1/categories')
                 .then(response => {
                     this.categories = response.data.results;
-                    this.categories.splice(0, 0, {name: 'All Categories'});
+                    // eslint-disable-next-line @typescript-eslint/camelcase
+                    this.categories.splice(0, 0, {name: 'All Categories', needs_original_phrase: true});
                 });
         },
         data() {
@@ -116,6 +117,9 @@
             },
             previousCategory() {
                 return this.categories[this.getCurrentCategoryIndex() - 1];
+            },
+            selectedCategoryObject() {
+                return this.categories.filter(c => c.name === this.selectedCategory)[0];
             }
         },
         methods: {
@@ -202,6 +206,7 @@
 
         .b-table td {
             text-align: left !important;
+            min-width: 90%;
         }
 
         .b-table td:nth-child(3) {
@@ -212,5 +217,9 @@
     .center-block {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .pre-line {
+        white-space: pre-line;
     }
 </style>
