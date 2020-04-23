@@ -51,6 +51,16 @@
                 return this.data[this.innerRowIndex] || null;
             }
         },
+        watch: {
+            innerRowIndex() {
+                this.$ga.event({
+                    eventCategory: 'Usage',
+                    eventAction: 'OpenPreview',
+                    eventLabel: this.selectedLanguage,
+                    eventValue: this.row.phrase.summary
+                });
+            }
+        },
         methods: {
             playAudio() {
                 const audioClip = this.row.audio_clip;

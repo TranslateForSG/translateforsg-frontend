@@ -19,6 +19,9 @@
                     {{ nextCategory.name }}
                 </b-button>
             </div>
+            <div class="block center-block">
+                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>
+            </div>
             <b-table id="phrasebookTable" :data="visibleRows">
                 <template slot-scope="props">
                     <b-table-column field="content" label="English" v-if="selectedCategoryObject && (selectedCategoryObject.needs_original_phrase === null || selectedCategoryObject.needs_original_phrase)">
@@ -56,6 +59,7 @@
     import axios from 'axios';
     import TranslationPreviewModal from "@/components/TranslationPreviewModal";
     import ChoiceComponent from "@/components/ChoiceComponent";
+    import ShareQR from "@/components/ShareQR";
 
     export default {
         name: "SearchableTable",
@@ -134,6 +138,23 @@
                         selectedLanguage: this.selectedLanguage
                     }
                 })
+            },
+            shareQr() {
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: ShareQR,
+                    hasModalCard: true,
+                    props: {
+                        url: window.location.href,
+                        title: `${this.selectedCategory} (${this.selectedLanguage})`
+                    }
+                });
+                this.$ga.event({
+                    eventCategory: 'Engagement',
+                    eventAction: 'Share',
+                    eventLabel: this.selectedLanguage,
+                    eventValue: this.selectedCategory
+                });
             },
             getListing() {
                 this.isLoading = true;
