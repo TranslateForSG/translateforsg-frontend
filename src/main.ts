@@ -7,6 +7,7 @@ import 'buefy/dist/buefy.css'
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueAnalytics from 'vue-analytics'
 import '@mdi/font/css/materialdesignicons.min.css'
+import store from './store'
 
 
 Vue.use(VueAnalytics, {
@@ -19,5 +20,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
