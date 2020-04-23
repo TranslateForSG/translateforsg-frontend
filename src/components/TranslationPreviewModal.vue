@@ -1,8 +1,8 @@
 <template>
     <div class="card" v-if="row" @keydown.left="previousTrack" @keydown.right="nextTrack">
         <div class="card-content" v-touch:swipe.left="nextTrack" v-touch:swipe.right="previousTrack">
-            <p class="smallText">{{ row.phrase.content }}</p>
-            <p class="largeText">{{ row.content }}</p>
+            <p class="smallText" v-if="needsOriginal">{{ row.phrase.content }}</p>
+            <p class="largeText pre-line">{{ row.content }}</p>
             <p v-if="!row.audio_clip" class="smallText">No Audio</p>
         </div>
         <footer class="modal-card-foot">
@@ -32,7 +32,7 @@
 
     export default {
         name: "TranslationPreviewModal",
-        props: ['data', 'rowIndex', 'selectedLanguage'],
+        props: ['data', 'rowIndex', 'selectedLanguage', 'needsOriginal'],
         data() {
             return {
                 isPlaying: false,

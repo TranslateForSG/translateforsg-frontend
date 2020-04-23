@@ -24,7 +24,7 @@
             </div>
             <b-table id="phrasebookTable" :data="visibleRows">
                 <template slot-scope="props">
-                    <b-table-column field="content" label="English" v-if="selectedCategoryObject && (selectedCategoryObject.needs_original_phrase === null || selectedCategoryObject.needs_original_phrase)">
+                    <b-table-column field="content" label="English" v-if="needsOriginalPhrase">
                         <strong class="pre-line">{{ props.row.phrase.content }}</strong>
                     </b-table-column>
                     <b-table-column :field="selectedLanguage" :label="selectedLanguage">
@@ -124,6 +124,9 @@
             },
             selectedCategoryObject() {
                 return this.categories.filter(c => c.name === this.selectedCategory)[0];
+            },
+            needsOriginalPhrase() {
+                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
             }
         },
         methods: {
@@ -135,7 +138,8 @@
                     props: {
                         data: this.data,
                         rowIndex: row.order,
-                        selectedLanguage: this.selectedLanguage
+                        selectedLanguage: this.selectedLanguage,
+                        needsOriginal: this.needsOriginalPhrase,
                     }
                 })
             },
