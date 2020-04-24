@@ -70,6 +70,7 @@
                     this.currentSoundTrack = new Howl({
                         src: audioClip,
                         autoplay: true,
+                        html5: true,
                         loop: false,
                         volume: 1.0,
                         onload: function () {
