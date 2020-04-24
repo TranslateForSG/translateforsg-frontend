@@ -33,6 +33,9 @@
                     <b-table-column>
                         <b-button icon-left="play" type="is-primary" @click="openPreview(props.row)">Play</b-button>
                     </b-table-column>
+                    <b-table-column>
+                        <b-button icon-left="help" type="is-light" @click="openFeedback(props.row)">Feedback</b-button>
+                    </b-table-column>
                 </template>
             </b-table>
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
@@ -60,6 +63,7 @@
     import TranslationPreviewModal from "@/components/TranslationPreviewModal";
     import ChoiceComponent from "@/components/ChoiceComponent";
     import ShareQR from "@/components/ShareQR";
+    import TranslationFeedback from "@/components/TranslationFeedback";
 
     export default {
         name: "SearchableTable",
@@ -143,6 +147,21 @@
                     }
                 })
             },
+            openFeedback(row) {
+                this.$ga.event({
+                    eventCategory: 'Feedback',
+                    eventAction: 'Form Opened',
+                    eventLabel: this.selectedLanguage
+                });
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: TranslationFeedback,
+                    hasModalCard: true,
+                    props: {
+                        translation: row
+                    }
+                })
+            },
             shareQr() {
                 this.$buefy.modal.open({
                     parent: this,
@@ -156,8 +175,7 @@
                 this.$ga.event({
                     eventCategory: 'Engagement',
                     eventAction: 'Share',
-                    eventLabel: this.selectedLanguage,
-                    eventValue: this.selectedCategory
+                    eventLabel: this.selectedLanguage
                 });
             },
             getListing() {

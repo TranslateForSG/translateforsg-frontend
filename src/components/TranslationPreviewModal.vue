@@ -56,8 +56,7 @@
                 this.$ga.event({
                     eventCategory: 'Usage',
                     eventAction: 'OpenPreview',
-                    eventLabel: this.selectedLanguage,
-                    eventValue: this.row.phrase.summary
+                    eventLabel: this.selectedLanguage
                 });
             }
         },
