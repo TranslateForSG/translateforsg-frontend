@@ -9,49 +9,22 @@
                     <b-input v-model="searchText" placeholder="Search..." icon-right="search"></b-input>
                 </b-field>
             </div>
-            <div class="block center-block">
-                <b-button class="is-centered" type="is-info" icon-left="skip-previous" v-if="previousCategory"
-                          @click="goPreviousCategory">
-                    {{ previousCategory.name }}
-                </b-button>&nbsp;
-                <b-button class="is-centered" type="is-info" icon-right="skip-next" v-if="nextCategory"
-                          @click="goNextCategory()">
-                    {{ nextCategory.name }}
-                </b-button>
-            </div>
+            <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
             <div class="block center-block">
                 <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>
             </div>
-            <b-table id="phrasebookTable" :data="visibleRows">
-                <template slot-scope="props">
-                    <b-table-column field="content" label="English" v-if="needsOriginalPhrase">
-                        <strong class="pre-line">{{ props.row.phrase.content }}</strong>
-                    </b-table-column>
-                    <b-table-column :field="selectedLanguage" :label="selectedLanguage">
-                        <span class="pre-line">{{ props.row.content }}</span>
-                    </b-table-column>
-                    <b-table-column>
-                        <b-button icon-left="play" type="is-primary" @click="openPreview(props.row)">Play</b-button>
-                    </b-table-column>
-                    <b-table-column>
-                        <b-button icon-left="help" type="is-light" @click="openFeedback(props.row)">Feedback</b-button>
-                    </b-table-column>
-                </template>
-            </b-table>
+            <TranslationTable
+                    :data="data"
+                    :visible-rows="visibleRows"
+                    :selected-category-object="selectedCategoryObject"
+                    :selected-language="selectedLanguage" />
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
             <br>
-            <div class="block center-block">
-                <b-button class="is-centered" type="is-info" icon-left="skip-previous" v-if="previousCategory"
-                          @click="goPreviousCategory">
-                    {{ previousCategory.name }}
-                </b-button>&nbsp;
-                <b-button class="is-centered" type="is-info" icon-right="skip-next" v-if="nextCategory"
-                          @click="goNextCategory()">
-                    {{ nextCategory.name }}
-                </b-button>
-            </div>
+            <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
             <div class="block">
-                <b-button class="fixed-button" size="is-large" @click="goBackCategoryChoice()" icon-left="arrow-left">Go Back
+                <b-button class="fixed-button" size="is-large"
+                          @click="goBackCategoryChoice()" icon-left="arrow-left">
+                    Go Back
                 </b-button>
             </div>
         </section>
@@ -60,14 +33,14 @@
 
 <script>
     import axios from 'axios';
-    import TranslationPreviewModal from "@/components/TranslationPreviewModal";
     import ChoiceComponent from "@/components/ChoiceComponent";
     import ShareQR from "@/components/ShareQR";
-    import TranslationFeedback from "@/components/TranslationFeedback";
+    import TranslationTable from "@/components/TranslationTable";
+    import CategoryNavigation from "@/components/CategoryNavigation";
 
     export default {
         name: "SearchableTable",
-        components: {ChoiceComponent},
+        components: {CategoryNavigation, TranslationTable, ChoiceComponent},
         mounted() {
             this.loadParams();
             this.getListing();
@@ -129,39 +102,8 @@
             selectedCategoryObject() {
                 return this.categories.filter(c => c.name === this.selectedCategory)[0];
             },
-            needsOriginalPhrase() {
-                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
-            }
         },
         methods: {
-            openPreview(row) {
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: TranslationPreviewModal,
-                    hasModalCard: true,
-                    props: {
-                        data: this.data,
-                        rowIndex: row.order,
-                        selectedLanguage: this.selectedLanguage,
-                        needsOriginal: this.needsOriginalPhrase,
-                    }
-                })
-            },
-            openFeedback(row) {
-                this.$ga.event({
-                    eventCategory: 'Feedback',
-                    eventAction: 'Form Opened',
-                    eventLabel: this.selectedLanguage
-                });
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: TranslationFeedback,
-                    hasModalCard: true,
-                    props: {
-                        translation: row
-                    }
-                })
-            },
             shareQr() {
                 this.$buefy.modal.open({
                     parent: this,
@@ -222,18 +164,6 @@
                 const splitPath = this.$route.path.split('/');
                 splitPath.pop();
                 const newPath = splitPath.join('/');
-                this.$router.push({path: newPath});
-            },
-            goNextCategory() {
-                const splitPath = this.$route.path.split('/');
-                splitPath.pop();
-                const newPath = splitPath.join('/') + '/' + this.categories[this.getCurrentCategoryIndex() + 1].name;
-                this.$router.push({path: newPath});
-            },
-            goPreviousCategory() {
-                const splitPath = this.$route.path.split('/');
-                splitPath.pop();
-                const newPath = splitPath.join('/') + '/' + this.categories[this.getCurrentCategoryIndex() - 1].name;
                 this.$router.push({path: newPath});
             }
         }
