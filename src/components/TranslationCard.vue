@@ -1,10 +1,10 @@
 <template>
     <div class="card">
         <div class="card-content">
-            <p class="subtitle is-6">
+            <p class="subtitle is-6 pre-line" v-if="needsOriginalPhrase">
                 {{ row.phrase.content }}
             </p>
-            <p class="subtitle is-4">
+            <p :class="'subtitle is-4 pre-line ' + (needsOriginalPhrase ? 'has-text-centered' : 'has-text-left')">
                 {{ row.content }}
             </p>
             <div class="buttons is-centered">
@@ -22,8 +22,12 @@
     export default {
         name: "TranslationCard",
         props: ['row', 'selectedCategoryObject', 'selectedLanguage', 'data'],
+        computed: {
+            needsOriginalPhrase() {
+                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
+            }
+        },
         methods: {
-
             openPreview(row) {
                 this.$buefy.modal.open({
                     parent: this,
@@ -51,9 +55,6 @@
                         translation: row
                     }
                 })
-            },
-            needsOriginalPhrase() {
-                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
             }
         }
     }
