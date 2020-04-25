@@ -22,10 +22,7 @@
             <br>
             <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
             <div class="block">
-                <b-button class="fixed-button" size="is-large"
-                          @click="goBackCategoryChoice()" icon-left="arrow-left">
-                    Go Back
-                </b-button>
+                <BackToCategoriesButton />
             </div>
         </section>
     </div>
@@ -37,10 +34,11 @@
     import ShareQR from "@/components/ShareQR";
     import TranslationTable from "@/components/TranslationTable";
     import CategoryNavigation from "@/components/CategoryNavigation";
+    import BackToCategoriesButton from "@/components/BackButton";
 
     export default {
         name: "SearchableTable",
-        components: {CategoryNavigation, TranslationTable, ChoiceComponent},
+        components: {BackToCategoriesButton, CategoryNavigation, TranslationTable, ChoiceComponent},
         mounted() {
             this.loadParams();
             this.getListing();
@@ -160,12 +158,7 @@
                     }
                 }
             },
-            goBackCategoryChoice() {
-                const splitPath = this.$route.path.split('/');
-                splitPath.pop();
-                const newPath = splitPath.join('/');
-                this.$router.push({path: newPath});
-            }
+
         }
     }
 </script>

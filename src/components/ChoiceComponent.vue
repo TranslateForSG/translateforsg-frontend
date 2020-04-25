@@ -9,26 +9,22 @@
             </b-button>
         </div>
         <div class="block" v-if="$route.path !== '/'">
-            <b-button class="fixed-button" size="is-large" @click="goBackLanguageChoice()" icon-left="arrow-left">Go Back
-            </b-button>
+            <BackToCategoriesButton />
         </div>
     </div>
 </template>
 
 <script>
+    import BackToCategoriesButton from "@/components/BackButton";
+
     export default {
         name: "ChoiceComponent",
+        components: {BackToCategoriesButton},
         props: ['choices'],
         methods: {
             getPath(value) {
                 return this.$route.path + (this.$route.path.endsWith('/') ? '' : '/') + value;
-            },
-            goBackLanguageChoice() {
-                const splitPath = this.$route.path.split('/');
-                splitPath.pop();
-                const newPath = splitPath.join('/');
-                this.$router.push({path: newPath || '/'});
-            },
+            }
         },
     }
 </script>
