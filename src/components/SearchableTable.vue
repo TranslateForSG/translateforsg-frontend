@@ -29,12 +29,12 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import ChoiceComponent from "@/components/ChoiceComponent";
     import ShareQR from "@/components/ShareQR";
     import TranslationTable from "@/components/TranslationTable";
     import CategoryNavigation from "@/components/CategoryNavigation";
     import BackToCategoriesButton from "@/components/BackButton";
+    import * as apiService from "@/services/api-service";
 
     export default {
         name: "SearchableTable",
@@ -42,15 +42,13 @@
         mounted() {
             this.loadParams();
             this.getListing();
-            axios
-                .get('https://api.translatefor.sg/api/v1/languages')
+            apiService.listLanguages()
                 .then(response => {
-                    this.languages = response.data.results;
-                });
-            axios
-                .get('https://api.translatefor.sg/api/v1/categories')
+                    this.languages = response.results;
+                })
+            apiService.listCategories()
                 .then(response => {
-                    this.categories = response.data.results;
+                    this.categories = response.results;
                     // eslint-disable-next-line @typescript-eslint/camelcase
                     this.categories.splice(0, 0, {name: 'All Categories', needs_original_phrase: true});
                 });
@@ -126,24 +124,22 @@
                     return;
                 }
 
-                const url = new URL('https://api.translatefor.sg/api/v1/translations');
-                url.searchParams.append('language__name', this.selectedLanguage);
+                const translationQuery = {
+                    language: this.selectedLanguage
+                };
+
                 if (this.selectedCategory && this.selectedCategory !== 'All Categories') {
-                    url.searchParams.append('phrase__category__name', this.selectedCategory);
+                    translationQuery.category = this.selectedCategory;
                 }
-                // if (this.searchText && this.searchText.length > 3) {
-                //     url.searchParams.append('search', this.searchText);
-                // }
 
                 // eslint-disable-next-line @typescript-eslint/no-this-alias
                 const component = this;
 
-                axios
-                    .get(url.toString())
+                apiService.listTranslations(translationQuery)
                     .then(response => {
                         let i = 0;
-                        response.data.results.forEach(row => row.order = i++);
-                        this.data = response.data.results;
+                        response.results.forEach(row => row.order = i++);
+                        this.data = response.results;
                         component.isLoading = false;
                     });
             },

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import * as apiService from "@/services/api-service";
 
     export default {
         name: "ContributorList",
@@ -39,10 +39,9 @@
             }
         },
         mounted() {
-            axios
-                .get('https://api.translatefor.sg/api/v1/contributors')
+            apiService.listContributors()
                 .then(response => {
-                    this.contributors = response.data.results;
+                    this.contributors = response.results;
                     let i = 0;
                     this.contributors.forEach(contributor => contributor.id = i++);
                 });

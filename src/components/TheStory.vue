@@ -21,45 +21,10 @@
 </template>
 
 <script>
-    import axios from 'axios';
-
     export default {
-        name: "ContributorList",
-        data() {
-            return {
-                contributors: []
-            }
-        },
-        mounted() {
-            axios
-                .get('https://api.translatefor.sg/api/v1/contributors')
-                .then(response => {
-                    this.contributors = response.data.results;
-                    let i = 0;
-                    this.contributors.forEach(contributor => contributor.id = i++);
-                });
-        },
-        methods: {
-            getRandomSize() {
-                return Math.floor(Math.random() * 24) + 10;
-            }
-        }
+        name: "ContributorList"
     }
 </script>
 
 <style scoped>
-    .credits {
-        max-height: 40vh;
-        overflow-y: scroll;
-    }
-
-    .credits span {
-        margin: 5px;
-    }
-
-    .credits span:hover {
-        color: #0d64c6;
-    }
-
-
 </style>

@@ -45,6 +45,7 @@
 <script>
     import VueRecaptcha from "vue-recaptcha";
     import axios from 'axios';
+    import * as apiService from "@/services/api-service";
 
     export default {
         name: "TranslationFeedback",
@@ -83,8 +84,7 @@
                 this.recaptcha = response;
             },
             submit() {
-                axios
-                    .post('https://api.translatefor.sg/api/v1/translationFeedbacks/', this.postData)
+                apiService.postTranslationFeedback(this.postData)
                     .then(response => {
                         this.submitted = true;
                         this.failed = false;
