@@ -45,7 +45,7 @@
             apiService.listLanguages()
                 .then(response => {
                     this.languages = response.results;
-                })
+                });
             apiService.listCategories()
                 .then(response => {
                     this.categories = response.results;

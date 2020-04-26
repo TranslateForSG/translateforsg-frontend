@@ -10,6 +10,7 @@ export interface ApiError {
 }
 
 export interface Phrase {
+    id: number;
     content: string;
     summary: string;
 }
@@ -39,6 +40,7 @@ export interface TranslationQuery {
     language?: string;
     category?: string;
     search?: string;
+    phrases: number[];
 }
 
 export interface Contributor {

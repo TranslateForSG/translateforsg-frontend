@@ -3,6 +3,11 @@
         <div class="block" v-if="$route.params.language">
             <h2 class="title">{{$route.params.language}}</h2>
         </div>
+        <div class="block">
+            <b-button class="fixed-button" size="is-large" tag="router-link" to="/favorites"
+                      type="is-info" icon-left="heart">My Favorites
+            </b-button>
+        </div>
         <div class="block" v-for="choice of choices" :key="choice.value">
             <b-button class="fixed-button" size="is-large" tag="router-link" :to="getPath(choice.value)"
                       type="is-light">{{choice.label}}

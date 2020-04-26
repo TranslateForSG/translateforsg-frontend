@@ -56,6 +56,10 @@ export const listTranslations = async (query: TranslationQuery) => {
         queryParams['search'] = query.search;
     }
 
+    if (query.phrases) {
+        queryParams['phrases'] = query.phrases;
+    }
+
     const requestUrl = '/api/v1/translations/?' + toQueryString(queryParams);
     const response = await apiClient.get<ApiResponse<Translation>>(requestUrl);
     return response.data;

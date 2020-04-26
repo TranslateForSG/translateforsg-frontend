@@ -1,6 +1,7 @@
 <template>
     <div class="card">
         <div class="card-content">
+            <BookmarkButton class="floating-bookmark" :bookmarked="isFavorite" v-on:add="favoriteAdd()" v-on:remove="favoriteRemove()" />
             <b-tag rounded type="is-warning">{{ row.phrase.summary }}</b-tag>
             <br><br>
             <p class="subtitle is-6 pre-line" v-if="needsOriginalPhrase">
@@ -27,10 +28,13 @@
     import TranslationPreviewModal from "@/components/TranslationPreviewModal";
     import TranslationFeedback from "@/components/TranslationFeedback";
     import {Howl, Howler} from "howler";
+    import BookmarkButton from "@/components/BookmarkButton";
+    import * as FavoritesService from "@/services/favorites-service";
 
     export default {
         name: "TranslationCard",
-        props: ['row', 'needsOriginalPhrase', 'data'],
+        components: {BookmarkButton},
+        props: ['row', 'needsOriginalPhrase', 'data', 'isFavorite'],
         data() {
             return {
                 currentRow: null,
@@ -41,6 +45,22 @@
         methods: {
             amIPlaying(row) {
                 return row && this.currentRow && row.id === this.currentRow.id;
+            },
+            favoriteAdd() {
+                FavoritesService.addToFavorites(this.row);
+                this.$ga.event({
+                    eventCategory: 'Usage',
+                    eventAction: 'FavoriteAdd'
+                });
+                this.$emit('favorite-added');
+            },
+            favoriteRemove() {
+                FavoritesService.removeFromFavorites(this.row);
+                this.$ga.event({
+                    eventCategory: 'Usage',
+                    eventAction: 'FavoriteRemove'
+                });
+                this.$emit('favorite-removed');
             },
             playAudio(row) {
                 this.stopPlaying();
@@ -131,5 +151,8 @@
 </script>
 
 <style scoped>
-
+    .floating-bookmark {
+        position: absolute;
+        right: 30px;
+    }
 </style>
