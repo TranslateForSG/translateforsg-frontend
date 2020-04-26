@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import {Howl} from 'howler';
+    import {Howl, Howler} from 'howler';
 
     export default {
         name: "TranslationPreviewModal",
@@ -37,8 +37,6 @@
             return {
                 isPlaying: false,
                 isLoading: true,
-                currentSoundTrack: null,
-                currentTrackId: null,
                 innerRowIndex: null,
             }
         },
@@ -67,7 +65,7 @@
                     // eslint-disable-next-line @typescript-eslint/no-this-alias
                     const component = this;
                     this.isLoading = true;
-                    this.currentSoundTrack = new Howl({
+                    const soundTrack = new Howl({
                         src: audioClip,
                         autoplay: true,
                         html5: true,
@@ -81,12 +79,11 @@
                             component.isPlaying = false;
                         }
                     });
-                    this.currentTrackId = this.currentSoundTrack.play();
+                    soundTrack.play();
                 }
             },
             stopPlaying() {
-                if (!this.currentSoundTrack) return;
-                this.currentSoundTrack.unload();
+                Howler.unload();
             },
             closeModal() {
                 this.stopPlaying();
