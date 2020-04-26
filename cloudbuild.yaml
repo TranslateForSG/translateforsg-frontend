@@ -1,0 +1,9 @@
+steps:
+  - name: node
+    entrypoint: yarn
+    args: ['install']
+  - name: node
+    entrypoint: yarn
+    args: ['build', '--prod']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'cp', '-r', 'dist/*', 'gs://translatefor.sg/']
