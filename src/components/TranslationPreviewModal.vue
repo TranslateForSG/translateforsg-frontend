@@ -11,9 +11,13 @@
                           v-if="data[innerRowIndex - 1]">
                     {{ data[innerRowIndex - 1].phrase.summary }}
                 </b-button>
-                <b-button v-if="row.audio_clip && !isLoading" class="is-centered"
-                          icon-left="play" :type="isPlaying ? 'is-light': 'is-success'" @click="playAudio">
+                <b-button v-if="row.audio_clip && !isLoading && !isPlaying" class="is-centered"
+                          icon-left="play" type="is-success" @click="playAudio">
                     Play Again
+                </b-button>
+                <b-button v-if="isPlaying" class="is-centered"
+                          icon-left="stop" type="is-danger" @click="stopPlaying">
+                    Stop
                 </b-button>
                 <b-button v-if="isLoading" class="is-centered" icon-left="play" :type="'is-warning'">Loading...
                 </b-button>
@@ -73,11 +77,23 @@
                         volume: 1.0,
                         onload: function () {
                             component.isLoading = false;
+                        },
+                        onplay: function () {
                             component.isPlaying = true;
                         },
                         onend: function () {
                             component.isPlaying = false;
-                        }
+                        },
+                        onloaderror: function () {
+                            component.isPlaying = false;
+                        },
+                        onplayerror: function () {
+                            component.isPlaying = false;
+                        },
+                        onstop: function () {
+                            component.isPlaying = false;
+
+                        },
                     });
                     soundTrack.play();
                 }

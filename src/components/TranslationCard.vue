@@ -1,6 +1,8 @@
 <template>
     <div class="card">
         <div class="card-content">
+            <b-tag rounded type="is-warning">{{ row.phrase.summary }}</b-tag>
+            <br><br>
             <p class="subtitle is-6 pre-line" v-if="needsOriginalPhrase">
                 {{ row.phrase.content }}
             </p>
@@ -8,13 +10,14 @@
                 {{ row.content }}
             </p>
             <div class="buttons is-centered">
-                <b-button class="is-left" icon-left="mailbox" type="is-light" @click="openFeedback(row)">Feedback
-                </b-button>
+                <b-button class="is-left" icon-left="alert-octagon" type="is-dark" @click="openFeedback(row)"></b-button>
                 <b-button icon-left="video" type="is-info" @click="openPreview(row)">Preview</b-button>
                 <b-button icon-left="play" type="is-primary"
                           @click="playAudio(row)"
-                          :disabled="row && currentRow && row.id === currentRow.id">Play Audio
-                </b-button>
+                          v-if="!amIPlaying(row)">Play</b-button>
+                <b-button icon-left="stop" type="is-danger"
+                          @click="stopPlaying()"
+                          v-if="amIPlaying(row)">Stop</b-button>
             </div>
         </div>
     </div>
@@ -41,6 +44,9 @@
             }
         },
         methods: {
+            amIPlaying(row) {
+                return row && this.currentRow && row.id === this.currentRow.id;
+            },
             playAudio(row) {
                 this.stopPlaying();
                 const audioClip = row.audio_clip;
