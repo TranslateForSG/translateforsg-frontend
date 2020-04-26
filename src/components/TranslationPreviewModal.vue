@@ -36,7 +36,7 @@
 
     export default {
         name: "TranslationPreviewModal",
-        props: ['data', 'rowIndex', 'selectedLanguage', 'needsOriginal'],
+        props: ['data', 'rowIndex', 'needsOriginal'],
         data() {
             return {
                 isPlaying: false,
@@ -57,8 +57,7 @@
             innerRowIndex() {
                 this.$ga.event({
                     eventCategory: 'Usage',
-                    eventAction: 'OpenPreview',
-                    eventLabel: this.selectedLanguage
+                    eventAction: 'OpenPreview'
                 });
             }
         },

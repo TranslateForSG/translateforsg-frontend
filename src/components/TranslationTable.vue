@@ -5,8 +5,7 @@
              class="translation-card">
             <TranslationCard :row="translation"
                              :data="data"
-                             :selected-category-object="selectedCategoryObject"
-                             :selected-language="selectedLanguage"/>
+                             :needs-original-phrase="needsOriginalPhrase" />
         </div>
 
     </div>
@@ -18,7 +17,12 @@
     export default {
         name: "TranslationTable",
         components: {TranslationCard},
-        props: ['data', 'visibleRows', 'selectedLanguage', 'selectedCategoryObject']
+        props: ['data', 'visibleRows', 'selectedCategoryObject'],
+        computed: {
+            needsOriginalPhrase() {
+                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
+            }
+        },
     }
 </script>
 

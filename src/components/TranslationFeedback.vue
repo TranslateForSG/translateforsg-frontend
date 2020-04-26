@@ -44,7 +44,6 @@
 
 <script>
     import VueRecaptcha from "vue-recaptcha";
-    import axios from 'axios';
     import * as apiService from "@/services/api-service";
 
     export default {
@@ -88,10 +87,18 @@
                     .then(response => {
                         this.submitted = true;
                         this.failed = false;
+                        this.$ga.event({
+                            eventCategory: 'Feedback',
+                            eventAction: 'Form Submission Success'
+                        });
                     })
                     .catch(error => {
                         this.submitted = true;
                         this.failed = true;
+                        this.$ga.event({
+                            eventCategory: 'Feedback',
+                            eventAction: 'Form Submission Failed'
+                        });
                     });
             }
         }

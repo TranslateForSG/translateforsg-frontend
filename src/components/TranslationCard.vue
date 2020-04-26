@@ -30,17 +30,12 @@
 
     export default {
         name: "TranslationCard",
-        props: ['row', 'selectedCategoryObject', 'selectedLanguage', 'data'],
+        props: ['row', 'needsOriginalPhrase', 'data'],
         data() {
             return {
                 currentRow: null,
                 isLoading: false,
                 isPlaying: false
-            }
-        },
-        computed: {
-            needsOriginalPhrase() {
-                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
             }
         },
         methods: {
@@ -73,15 +68,27 @@
                         },
                         onloaderror: function () {
                             component.currentRow = null;
+                            this.$ga.event({
+                                eventCategory: 'Error',
+                                eventAction: 'LoadError',
+                            });
                         },
                         onplayerror: function () {
                             component.currentRow = null;
+                            this.$ga.event({
+                                eventCategory: 'Error',
+                                eventAction: 'PlayError',
+                            });
                         },
                         onstop: function () {
                             component.currentRow = null;
                         },
                     });
                     soundTrack.play();
+                    this.$ga.event({
+                        eventCategory: 'Usage',
+                        eventAction: 'PlayDirectly'
+                    });
                 }
             },
             stopPlaying() {
@@ -89,6 +96,7 @@
                 this.currentRow = null;
             },
             openPreview(row) {
+                this.stopPlaying();
                 this.$buefy.modal.open({
                     parent: this,
                     component: TranslationPreviewModal,
@@ -96,7 +104,6 @@
                     props: {
                         data: this.data,
                         rowIndex: row.order,
-                        selectedLanguage: this.selectedLanguage,
                         needsOriginal: this.needsOriginalPhrase,
                     },
                     onCancel() {
@@ -108,8 +115,7 @@
             openFeedback(row) {
                 this.$ga.event({
                     eventCategory: 'Feedback',
-                    eventAction: 'Form Opened',
-                    eventLabel: this.selectedLanguage
+                    eventAction: 'Form Opened'
                 });
                 this.$buefy.modal.open({
                     parent: this,
