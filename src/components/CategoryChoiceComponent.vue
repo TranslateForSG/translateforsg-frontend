@@ -57,7 +57,7 @@
                     const activeTab = localStorage.getItem('activeSectionTab');
 
                     if (activeTab === null) {
-                        localStorage.setItem('activeSectionTab', 1);
+                        localStorage.setItem('activeSectionTab', 0);
                     } else {
                         setTimeout(() => {this.activeTab = parseInt(activeTab)}, 500);
                     }
