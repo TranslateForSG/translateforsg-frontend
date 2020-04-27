@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import SayThanks from '../views/SayThanks.vue'
 import ContributorList from "@/views/ContributorList.vue";
 import FavoriteList from "@/views/FavoriteList.vue";
+import DownloadableTable from "@/components/DownloadableTable.vue";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes: Array<RouteConfig> = [
         path: '/contributors',
         name: 'Contributors',
         component: ContributorList
+    },
+    {
+        path: '/:language/Downloadables',
+        name: 'Downloadables',
+        component: DownloadableTable
     },
     {
         path: '/:language?/:category?',

@@ -51,6 +51,8 @@
                     this.categories = response.results;
                     // eslint-disable-next-line @typescript-eslint/camelcase
                     this.categories.splice(0, 0, {name: 'All Categories', needs_original_phrase: true});
+                    // eslint-disable-next-line @typescript-eslint/camelcase
+                    this.categories.push({name: 'Downloadables', needs_original_phrase: true});
                 });
         },
         data() {

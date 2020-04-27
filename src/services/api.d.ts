@@ -72,3 +72,15 @@ export interface TranslationFeedback {
 export interface TranslationFeedbackRequest extends TranslationFeedback, RecaptchaRequest {
 
 }
+
+export interface Downloadable {
+    id: number;
+    name: string;
+    downloadable_file: string;
+    description: string;
+}
+
+export interface DownloadableQuery {
+    language?: string;
+    search?: string;
+}
