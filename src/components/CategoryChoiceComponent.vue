@@ -16,11 +16,6 @@
                                   type="is-light">{{category.name}}
                         </b-button>
                     </div>
-                    <div class="block">
-                        <b-button class="fixed-button" size="is-large" tag="router-link" :to="getPath('Downloadables')"
-                                  type="is-info" icon-left="download">All Downloadables
-                        </b-button>
-                    </div>
                 </b-tab-item>
             </b-tabs>
         </div>

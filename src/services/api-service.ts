@@ -74,7 +74,7 @@ export const postTranslationFeedback = async (translationFeedback: TranslationFe
 
 export const getDownloadables = async (config: DownloadableQuery) => {
     // eslint-disable-next-line
-    const requestUrl = '/api/v1/downloadables/?' + toQueryString({language__name: config.language, search: config.search || ''});
+    const requestUrl = '/api/v1/downloadables/?' + toQueryString({language__name: config.language || '', search: config.search || '', category__name: config.category || ''});
     const response = await apiClient.get<ApiResponse<Downloadable>>(requestUrl);
     return response.data;
 }

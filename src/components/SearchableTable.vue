@@ -10,12 +10,14 @@
                 </b-field>
             </div>
             <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
-            <div class="block center-block">
-                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>
-            </div>
+<!--            <div class="block center-block">-->
+<!--                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>-->
+<!--            </div>-->
             <TranslationTable
                     :data="data"
                     :visible-rows="visibleRows"
+                    :downloadables="downloadables"
+                    :visible-downloadables="visibleDownloadables"
                     :selected-category-object="selectedCategoryObject"
                     :selected-language="selectedLanguage" />
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
@@ -55,12 +57,13 @@
                     // eslint-disable-next-line @typescript-eslint/camelcase
                     this.categories.splice(0, 0, {name: 'All Categories', needs_original_phrase: true});
                     // eslint-disable-next-line @typescript-eslint/camelcase
-                    this.categories.push({name: 'Downloadables', needs_original_phrase: true});
+                    // this.categories.push({name: 'Downloadables', needs_original_phrase: true});
                 });
         },
         data() {
             return {
                 data: [],
+                downloadables: [],
                 languages: [],
                 categories: [],
                 selectedLanguage: null,
@@ -87,6 +90,12 @@
                     return this.data.filter(row => (row.phrase.content.toLowerCase().includes(this.searchText.toLowerCase())))
                 }
                 return this.data;
+            },
+            visibleDownloadables: function () {
+                if (this.searchText) {
+                    return this.downloadables.filter(row => (row.name.toLowerCase().includes(this.searchText.toLowerCase())))
+                }
+                return this.downloadables;
             },
             languageChoices: function () {
                 return this.languages.map(l => ({value: l.name, label: l.name + ' (' + l.native_name + ')'}));
@@ -145,6 +154,14 @@
                         let i = 0;
                         response.results.forEach(row => row.order = i++);
                         this.data = response.results;
+                        component.isLoading = false;
+                    });
+
+                apiService.getDownloadables({language: this.selectedLanguage, category: this.selectedCategory})
+                    .then(response => {
+                        let i = 0;
+                        response.results.forEach(row => row.order = i++);
+                        this.downloadables = response.results;
                         component.isLoading = false;
                     });
             },

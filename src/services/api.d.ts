@@ -82,6 +82,7 @@ export interface Downloadable {
 
 export interface DownloadableQuery {
     language?: string;
+    category?: string;
     search?: string;
 }
 

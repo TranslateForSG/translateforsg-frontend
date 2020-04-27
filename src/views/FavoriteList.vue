@@ -2,7 +2,7 @@
     <div class="translations">
         <h2 class="is-4 title">Favorites</h2>
         <div class="block">
-            <b-field style="overflow-x: scroll;">
+            <b-field style="overflow-x: scroll;" class="has-addons-centered">
                 <b-radio-button v-for="language in languages" v-model="selectedLanguage" :key="language.code"
                                 :native-value="language.name"
                                 type="is-danger">

@@ -1,28 +1,57 @@
 <template>
     <div class="translations">
-        <div v-for="translation of visibleRows"
-             :key="translation.id"
-             class="translation-card">
-            <TranslationCard :row="translation"
-                             :data="data"
-                             :is-favorite="favoriteTranslationIds.indexOf(translation.phrase.id) > -1"
-                             :needs-original-phrase="needsOriginalPhrase" />
+        <div class="block">
+            <b-field class="has-addons-centered">
+                <b-radio-button v-model="viewing"
+                                native-value="All"
+                                type="is-danger">
+                    All
+                </b-radio-button>
+                <b-radio-button v-model="viewing"
+                                native-value="Phrases"
+                                type="is-danger">
+                    Phrases
+                </b-radio-button>
+                <b-radio-button v-model="viewing"
+                                native-value="Downloads"
+                                type="is-danger">
+                    Downloads
+                </b-radio-button>
+            </b-field>
         </div>
-
+        <div v-if="viewing === 'All' || viewing === 'Phrases'">
+            <div v-for="translation of visibleRows"
+                 :key="translation.id"
+                 class="translation-card">
+                <TranslationCard :row="translation"
+                                 :data="data"
+                                 :is-favorite="favoriteTranslationIds.indexOf(translation.phrase.id) > -1"
+                                 :needs-original-phrase="needsOriginalPhrase"/>
+            </div>
+        </div>
+        <div v-if="viewing === 'All' || viewing === 'Downloads'">
+            <div v-for="downloadable of visibleDownloadables"
+                 :key="downloadable.id"
+                 class="translation-card">
+                <DownloadableCard :downloadable="downloadable"/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import TranslationCard from "@/components/TranslationCard";
     import {getFavoriteTranslationIds} from "@/services/favorites-service";
+    import DownloadableCard from "@/components/DownloadableCard";
 
     export default {
         name: "TranslationTable",
-        components: {TranslationCard},
-        props: ['data', 'visibleRows', 'selectedCategoryObject'],
+        components: {TranslationCard, DownloadableCard},
+        props: ['data', 'visibleRows', 'downloadables', 'visibleDownloadables', 'selectedCategoryObject'],
         data() {
             return {
-                favoriteTranslationIds: []
+                favoriteTranslationIds: [],
+                viewing: 'All'
             };
         },
         computed: {
