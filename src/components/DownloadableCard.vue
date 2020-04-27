@@ -6,7 +6,7 @@
             </p>
             <div class="buttons is-centered">
                 <b-button icon-left="download" type="is-info" tag="a" :href="downloadable.downloadable_file" download>
-                    {{ fileName }}
+                    Download {{fileExtension}} File
                 </b-button>
             </div>
         </div>
@@ -32,7 +32,16 @@
                 }
 
                 return parts[parts.length - 1];
-            }
+            },
+            fileExtension() {
+                const parts = this.fileName.split('.');
+
+                if (parts.length > 1) {
+                    return '.' + parts[parts.length - 1];
+                }
+
+                return '';
+            },
         }
     }
 </script>
