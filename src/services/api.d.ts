@@ -84,3 +84,7 @@ export interface DownloadableQuery {
     language?: string;
     search?: string;
 }
+
+export interface Section extends Category {
+    categories: Category[];
+}

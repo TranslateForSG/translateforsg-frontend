@@ -3,7 +3,7 @@ import {
     ApiResponse,
     Category,
     Contributor, Downloadable, DownloadableQuery,
-    Language,
+    Language, Section,
     Translation, TranslationFeedback,
     TranslationFeedbackRequest,
     TranslationQuery
@@ -76,5 +76,11 @@ export const getDownloadables = async (config: DownloadableQuery) => {
     // eslint-disable-next-line
     const requestUrl = '/api/v1/downloadables/?' + toQueryString({language__name: config.language, search: config.search || ''});
     const response = await apiClient.get<ApiResponse<Downloadable>>(requestUrl);
+    return response.data;
+}
+
+export const getSections = async () => {
+    const requestUrl = '/api/v1/sections/';
+    const response = await apiClient.get<ApiResponse<Section>>(requestUrl);
     return response.data;
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <ChoiceComponent v-if="!selectedCategory && !selectedLanguage" :choices="languageChoices"></ChoiceComponent>
-        <ChoiceComponent v-if="!selectedCategory && selectedLanguage" :choices="categoryChoices"></ChoiceComponent>
+        <ChoiceComponent v-if="!selectedCategory && !selectedLanguage" :choices="languageChoices" />
+        <CategoryChoiceComponent v-if="!selectedCategory && selectedLanguage" />
         <section v-if="selectedCategory && selectedLanguage" style="width: 100%">
             <div class="block">
                 <b-field custom-class="is-large" style="justify-content: center">
@@ -35,10 +35,13 @@
     import CategoryNavigation from "@/components/CategoryNavigation";
     import BackToCategoriesButton from "@/components/BackButton";
     import * as apiService from "@/services/api-service";
+    import CategoryChoiceComponent from "@/components/CategoryChoiceComponent";
 
     export default {
         name: "SearchableTable",
-        components: {BackToCategoriesButton, CategoryNavigation, TranslationTable, ChoiceComponent},
+        components: {
+            CategoryChoiceComponent,
+            BackToCategoriesButton, CategoryNavigation, TranslationTable, ChoiceComponent},
         mounted() {
             this.loadParams();
             this.getListing();
