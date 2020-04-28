@@ -66,7 +66,7 @@ export const listTranslations = async (query: TranslationQuery) => {
 };
 
 export const postTranslationFeedback = async (translationFeedback: TranslationFeedbackRequest) => {
-    const requestUrl = '/api/v1/translationFeedbacks';
+    const requestUrl = '/api/v1/translationFeedbacks/';
     const response = await apiClient
         .post<ApiResponse<TranslationFeedback>>(requestUrl, translationFeedback);
     return response.data;
