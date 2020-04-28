@@ -10,7 +10,7 @@ import {
 } from "@/services/api";
 
 export const apiClient = axios.create({
-    baseURL: 'https://api.translatefor.sg/',
+    baseURL: process.env.VUE_APP_API_BASE_URL,
     timeout: 5000,
     responseType: 'json',
     headers: {

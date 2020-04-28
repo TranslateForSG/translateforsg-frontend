@@ -10,6 +10,8 @@
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@mdi/font": "^5.1.45",
+    "@sentry/browser": "^5.15.5",
+    "@sentry/integrations": "^5.15.5",
     "@types/howler": "^2.1.2",
     "axios": "^0.19.2",
     "buefy": "^0.8.15",

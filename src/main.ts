@@ -9,6 +9,13 @@ import VueAnalytics from 'vue-analytics'
 import '@mdi/font/css/materialdesignicons.min.css'
 import store from './store'
 
+import * as Sentry from '@sentry/browser';
+import { Vue as VueIntegration } from '@sentry/integrations';
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [new VueIntegration({Vue, attachProps: true})],
+});
 
 Vue.use(VueAnalytics, {
   id: 'UA-98792383-4',
