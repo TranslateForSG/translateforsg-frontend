@@ -1,13 +1,14 @@
 <template>
     <div class="translations">
         <h2 class="is-4 title">Favorites</h2>
-        <div class="block">
-            <b-field style="overflow-x: scroll;" class="has-addons-centered">
-                <b-radio-button v-for="language in languages" v-model="selectedLanguage" :key="language.code"
-                                :native-value="language.name"
-                                type="is-danger">
-                    {{ language.name }}
-                </b-radio-button>
+        <div class="block has-text-centered is-centered">
+            <b-field class="is-centered" style="width: fit-content; margin-right: auto; margin-left: auto;">
+                <b-select placeholder="Select a name" v-model="selectedLanguage">
+                    <option v-for="language in languages" :key="language.code"
+                            :value="language.name">
+                        {{ language.name }}
+                    </option>
+                </b-select>
             </b-field>
         </div>
         <div class="block" v-if="!visibleRows || visibleRows.length === 0">
