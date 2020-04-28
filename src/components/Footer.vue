@@ -8,8 +8,9 @@
         <p>Open Source. Source code available on <a
                 href="https://github.com/aniruddha-adhikary/translateforsg-frontend">GitHub</a></p>
         <br>
-        <br>
         <p>This spontaneous volunteer-driven project is not affiliated to any organization.</p>
+        <br>
+        <p>Copyright &copy; 2020 TranslateForSG Volunteers and Contributors</p>
     </div>
 </template>
 

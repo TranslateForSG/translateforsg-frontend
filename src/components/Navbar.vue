@@ -18,6 +18,9 @@
             <b-navbar-item tag="router-link" to="/thanks">
                 Say Thanks
             </b-navbar-item>
+            <b-navbar-item tag="router-link" to="/contact">
+                Contact Us
+            </b-navbar-item>
         </template>
 
         <template slot="end">
