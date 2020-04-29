@@ -10,6 +10,9 @@
             <p :class="'subtitle is-4 pre-line ' + (needsOriginalPhrase ? 'has-text-centered' : 'has-text-left')">
                 {{ row.content }}
             </p>
+            <p class="subtitle is-6 pre-line" v-if="row.romanized">
+                {{ row.romanized }}
+            </p>
             <div class="buttons is-centered">
                 <b-button class="is-left" icon-left="alert-octagon" type="is-dark" @click="openFeedback(row)"></b-button>
                 <b-button icon-left="video" type="is-info" @click="openPreview(row)">Preview</b-button>
