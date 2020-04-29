@@ -10,9 +10,10 @@
                 </b-field>
             </div>
             <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
-<!--            <div class="block center-block">-->
-<!--                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>-->
-<!--            </div>-->
+            <div class="buttons has-addons-centered is-centered">
+                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>
+                <b-button type="is-primary" icon-left="printer" tag="a" :href="printUrl" target="_blank">Print Now</b-button>
+            </div>
             <TranslationTable
                     :data="data"
                     :visible-rows="visibleRows"
@@ -112,6 +113,25 @@
             selectedCategoryObject() {
                 return this.categories.filter(c => c.name === this.selectedCategory)[0];
             },
+            translationQuery() {
+                const query = {
+                    language: this.selectedLanguage
+                };
+
+                if (this.selectedCategory && this.selectedCategory !== 'All Categories') {
+                    query.category = this.selectedCategory;
+                }
+
+                return query;
+            },
+            printUrl() {
+                return process.env.VUE_APP_API_BASE_URL + '/printables/?' + apiService.toQueryString({
+                    // eslint-disable-next-line
+                    language__name: this.selectedLanguage,
+                    // eslint-disable-next-line
+                    phrase__category__name: (this.selectedCategory !== 'All Categories' ? this.selectedCategory: '')
+                });
+            }
         },
         methods: {
             shareQr() {
@@ -138,18 +158,10 @@
                     return;
                 }
 
-                const translationQuery = {
-                    language: this.selectedLanguage
-                };
-
-                if (this.selectedCategory && this.selectedCategory !== 'All Categories') {
-                    translationQuery.category = this.selectedCategory;
-                }
-
                 // eslint-disable-next-line @typescript-eslint/no-this-alias
                 const component = this;
 
-                apiService.listTranslations(translationQuery)
+                apiService.listTranslations(this.translationQuery)
                     .then(response => {
                         let i = 0;
                         response.results.forEach(row => row.order = i++);
