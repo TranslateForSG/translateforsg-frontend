@@ -18,9 +18,13 @@ Sentry.init({
 });
 
 Vue.use(VueAnalytics, {
-  id: 'UA-98792383-4',
-  router
+  id: process.env.VUE_APP_GA_ID,
+  router,
+  debug: {
+    sendHitTask: process.env.NODE_ENV === 'production'
+  }
 })
+
 Vue.use(Vue2TouchEvents)
 Vue.use(Buefy)
 Vue.config.productionTip = false
