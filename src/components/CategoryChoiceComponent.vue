@@ -4,15 +4,15 @@
             <h2 class="title">{{$route.params.language}}</h2>
         </div>
         <div class="block">
-            <b-tabs v-model="activeTab" type="is-boxed">
+            <b-tabs v-model="activeTab" type="is-toggle" vertical id="category-choice-tabs">
                 <b-tab-item v-for="section of sections" :key="section.id" :label="section.name">
                     <div class="block">
-                        <b-button class="fixed-button" size="is-large" tag="router-link" :to="getPath('All Categories')"
+                        <b-button class="fixed-button" size="is-medium" tag="router-link" :to="getPath('All Categories')"
                                   type="is-light">All Categories
                         </b-button>
                     </div>
                     <div class="block" v-for="category in section.categories" :key="category.id">
-                        <b-button class="fixed-button" size="is-large" tag="router-link" :to="getPath(category.name)"
+                        <b-button class="fixed-button" size="is-medium" tag="router-link" :to="getPath(category.name)"
                                   type="is-light">{{category.name}}
                         </b-button>
                     </div>
@@ -79,5 +79,9 @@
 
     nav.tabs ul {
         justify-content: center;
+    }
+
+    #category-choice-tabs .tab-content {
+        padding-top: 0;
     }
 </style>
