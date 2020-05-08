@@ -10,10 +10,7 @@
       style="width: 100%"
     >
       <div class="block">
-        <b-field custom-class="is-large" style="justify-content: center">
-          <span></span>
-          <SearchBox />
-        </b-field>
+        <SearchBox />
       </div>
       <CategoryNavigation />
       <TranslationTable />

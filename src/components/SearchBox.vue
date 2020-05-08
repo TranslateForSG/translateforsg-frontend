@@ -1,10 +1,15 @@
 <template>
-  <b-input
-    :value="searchText"
-    v-debounce:300ms="search"
-    placeholder="Search..."
-    icon-right="search"
-  ></b-input>
+  <b-field custom-class="is-large" style="justify-content: center">
+    <b-input
+      :value="searchText"
+      v-debounce:300ms="search"
+      placeholder="Search..."
+      icon-right="search"
+    ></b-input>
+    <p class="controls">
+      <b-button @click="searchText = ''" class="button is-dark" icon-left="close"></b-button>
+    </p>
+  </b-field>
 </template>
 
 <script>
