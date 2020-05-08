@@ -16,10 +16,6 @@
         </b-field>
       </div>
       <CategoryNavigation />
-      <div class="buttons has-addons-centered is-centered">
-        <ShareButton />
-        <PrintButton />
-      </div>
       <TranslationTable />
       <br />
       <CategoryNavigation />
@@ -36,8 +32,6 @@ import TranslationTable from "@/components/TranslationTable";
 import CategoryNavigation from "@/components/CategoryNavigation";
 import BackToCategoriesButton from "@/components/BackButton";
 import CategoryChoiceComponent from "@/components/CategoryChoiceComponent";
-import PrintButton from "@/components/PrintButton";
-import ShareButton from "@/components/ShareButton";
 import SearchBox from "@/components/SearchBox";
 
 export default {
@@ -48,8 +42,6 @@ export default {
     CategoryNavigation,
     TranslationTable,
     ChoiceComponent,
-    PrintButton,
-    ShareButton,
     SearchBox
   },
   mounted() {

@@ -1,6 +1,6 @@
 <template>
     <div class="translations">
-        <div class="block">
+        <!-- <div class="block">
             <b-field class="has-addons-centered">
                 <b-radio-button v-model="viewing"
                                 native-value="All"
@@ -18,7 +18,7 @@
                     Downloads
                 </b-radio-button>
             </b-field>
-        </div>
+        </div> -->
         <div v-if="viewing === 'All' || viewing === 'Phrases'">
             <div v-for="translation of $store.getters.getVisibleRows()"
                  :key="translation.id"
