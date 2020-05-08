@@ -4,7 +4,7 @@
             <h2 class="title">{{$route.params.language}}</h2>
         </div>
         <div class="block">
-            <b-tabs v-model="activeTab" type="is-toggle" vertical id="category-choice-tabs">
+            <b-tabs v-model="activeTab" type="is-toggle" :vertical="isMobile" id="category-choice-tabs">
                 <b-tab-item v-for="section of $store.state.sections" :key="section.id" :label="section.name">
                     <div class="block">
                         <b-button class="fixed-button" size="is-medium" tag="router-link" :to="getPath('All Categories')"
@@ -34,6 +34,11 @@
         data() {
             return {
                 activeTab: null
+            }
+        },
+        computed: {
+            isMobile() {
+                return window.screen.width < 768;
             }
         },
         watch: {
@@ -76,6 +81,12 @@
 
     nav.tabs ul {
         justify-content: center;
+    }
+
+    @media screen and (min-width: 768px) {
+        .b-tabs .tabs {
+            margin-bottom: 20px !important;
+        }
     }
 
     #category-choice-tabs .tab-content {
