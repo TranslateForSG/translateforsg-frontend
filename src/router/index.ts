@@ -40,7 +40,7 @@ const routes: Array<RouteConfig> = [
         name: 'Home',
         component: Home,
         meta: {
-            title: 'Medical Phrasebook | TranslateForSG',
+            title: 'TranslateForSG',
             metaTags: [
                 {
                     name: 'description',
