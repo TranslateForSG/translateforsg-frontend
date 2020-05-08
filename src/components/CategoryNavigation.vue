@@ -1,5 +1,5 @@
 <template>
-  <div class="block center-block">
+  <div class="buttons has-addons-centered is-centered">
     <b-button
       class="is-centered"
       type="is-info"

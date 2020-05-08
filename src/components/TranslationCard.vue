@@ -13,9 +13,9 @@
             <p class="subtitle is-6 pre-line" v-if="row.romanized">
                 {{ row.romanized }}
             </p>
-            <div class="buttons is-centered">
+            <div class="buttons has-addons-centered is-centered">
                 <b-button class="is-left" icon-left="alert-octagon" type="is-dark" @click="openFeedback(row)"></b-button>
-                <b-button icon-left="video" type="is-info" @click="openPreview(row)">Preview</b-button>
+                <b-button icon-left="video" type="is-info" @click="openPreview(row)">View</b-button>
                 <b-button icon-left="play" type="is-primary"
                           @click="playAudio(row)"
                           v-if="!amIPlaying(row)">Play</b-button>

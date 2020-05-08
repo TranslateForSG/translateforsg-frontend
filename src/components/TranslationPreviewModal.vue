@@ -6,7 +6,7 @@
             <p v-if="!row.audio_clip" class="smallText">No Audio</p>
         </div>
         <footer class="modal-card-foot">
-            <div class="block center-block">
+            <div style="width: 100%" class="buttons has-addons-centered is-centered">
                 <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous"
                           v-if="this.$store.state.translations[innerRowIndex - 1]">
                     {{ this.$store.state.translations[innerRowIndex - 1].phrase.summary }}
