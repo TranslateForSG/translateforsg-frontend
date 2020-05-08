@@ -8,8 +8,8 @@
         <footer class="modal-card-foot">
             <div class="block center-block">
                 <b-button class="is-centered" type="is-link" @click="previousTrack" icon-left="skip-previous"
-                          v-if="data[innerRowIndex - 1]">
-                    {{ data[innerRowIndex - 1].phrase.summary }}
+                          v-if="this.$store.state.translations[innerRowIndex - 1]">
+                    {{ this.$store.state.translations[innerRowIndex - 1].phrase.summary }}
                 </b-button>
                 <b-button v-if="row.audio_clip && !isLoading && !isPlaying" class="is-centered"
                           icon-left="play" type="is-success" @click="playAudio">
@@ -22,8 +22,8 @@
                 <b-button v-if="isLoading" class="is-centered" icon-left="play" :type="'is-warning'">Loading...
                 </b-button>
                 <b-button class="is-centered" type="is-link" @click="nextTrack" icon-right="skip-next"
-                          v-if="data[innerRowIndex + 1]">
-                    {{ data[innerRowIndex + 1].phrase.summary }}
+                          v-if="this.$store.state.translations[innerRowIndex + 1]">
+                    {{ this.$store.state.translations[innerRowIndex + 1].phrase.summary }}
                 </b-button>
             </div>
         </footer>
@@ -36,7 +36,7 @@
 
     export default {
         name: "TranslationPreviewModal",
-        props: ['data', 'rowIndex', 'needsOriginal'],
+        props: ['rowIndex', 'needsOriginal'],
         data() {
             return {
                 isPlaying: false,
@@ -50,7 +50,7 @@
         },
         computed: {
             row: function () {
-                return this.data[this.innerRowIndex] || null;
+                return this.$store.state.translations[this.innerRowIndex] || null;
             }
         },
         watch: {
@@ -113,7 +113,7 @@
             },
             nextTrack() {
                 this.stopPlaying();
-                if (this.innerRowIndex < this.data.length - 1) {
+                if (this.innerRowIndex < this.$store.state.translations.length - 1) {
                     this.innerRowIndex++;
                     this.playAudio();
                 }

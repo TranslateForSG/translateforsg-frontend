@@ -37,7 +37,7 @@
     export default {
         name: "TranslationCard",
         components: {BookmarkButton},
-        props: ['row', 'needsOriginalPhrase', 'data', 'isFavorite'],
+        props: ['row', 'needsOriginalPhrase', 'isFavorite'],
         data() {
             return {
                 currentRow: null,
@@ -125,7 +125,7 @@
                     component: TranslationPreviewModal,
                     hasModalCard: true,
                     props: {
-                        data: this.data,
+                        data: this.$store.state.translations,
                         rowIndex: row.order,
                         needsOriginal: this.needsOriginalPhrase,
                     },

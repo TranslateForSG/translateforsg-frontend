@@ -20,11 +20,10 @@
             </b-field>
         </div>
         <div v-if="viewing === 'All' || viewing === 'Phrases'">
-            <div v-for="translation of visibleRows"
+            <div v-for="translation of $store.getters.getVisibleRows()"
                  :key="translation.id"
                  class="translation-card">
                 <TranslationCard :row="translation"
-                                 :data="data"
                                  :is-favorite="favoriteTranslationIds.indexOf(translation.phrase.id) > -1"
                                  :needs-original-phrase="needsOriginalPhrase"/>
             </div>
@@ -47,7 +46,7 @@
     export default {
         name: "TranslationTable",
         components: {TranslationCard, DownloadableCard},
-        props: ['data', 'visibleRows', 'downloadables', 'visibleDownloadables', 'selectedCategoryObject'],
+        props: ['downloadables', 'visibleDownloadables'],
         data() {
             return {
                 favoriteTranslationIds: [],
@@ -56,7 +55,7 @@
         },
         computed: {
             needsOriginalPhrase() {
-                return this.selectedCategoryObject && (this.selectedCategoryObject.needs_original_phrase === null || this.selectedCategoryObject.needs_original_phrase);
+                return this.$store.state.currentCategory && (this.$store.state.currentCategory.needs_original_phrase === null || this.$store.state.currentCategory.needs_original_phrase);
             }
         },
         mounted() {

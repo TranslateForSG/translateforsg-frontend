@@ -1,221 +1,119 @@
 <template>
-    <div>
-        <ChoiceComponent v-if="!selectedCategory && !selectedLanguage" :choices="languageChoices" />
-        <CategoryChoiceComponent v-if="!selectedCategory && selectedLanguage" />
-        <section v-if="selectedCategory && selectedLanguage" style="width: 100%">
-            <div class="block">
-                <b-field custom-class="is-large" style="justify-content: center">
-                    <span></span>
-                    <b-input v-model="searchText" placeholder="Search..." icon-right="search"></b-input>
-                </b-field>
-            </div>
-            <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
-            <div class="buttons has-addons-centered is-centered">
-                <b-button class="is-centered" type="is-primary" icon-left="share" @click="shareQr()">Share</b-button>
-                <b-button type="is-primary" icon-left="printer" tag="a" :href="printUrl" target="_blank">Print Now</b-button>
-            </div>
-            <TranslationTable
-                    :data="data"
-                    :visible-rows="visibleRows"
-                    :downloadables="downloadables"
-                    :visible-downloadables="visibleDownloadables"
-                    :selected-category-object="selectedCategoryObject"
-                    :selected-language="selectedLanguage" />
-            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
-            <br>
-            <CategoryNavigation :next-category="nextCategory" :previous-category="previousCategory" />
-            <div class="block">
-                <BackToCategoriesButton />
-            </div>
-        </section>
-    </div>
+  <div>
+    <ChoiceComponent
+      v-if="!$store.state.currentCategory && !$store.state.currentLanguage"
+      :choices="languageChoices"
+    />
+    <CategoryChoiceComponent v-if="!$store.state.currentCategory && $store.state.currentLanguage" />
+    <section
+      v-if="$store.state.currentCategory && $store.state.currentLanguage"
+      style="width: 100%"
+    >
+      <div class="block">
+        <b-field custom-class="is-large" style="justify-content: center">
+          <span></span>
+          <SearchBox />
+        </b-field>
+      </div>
+      <CategoryNavigation />
+      <div class="buttons has-addons-centered is-centered">
+        <ShareButton />
+        <PrintButton />
+      </div>
+      <TranslationTable />
+      <br />
+      <CategoryNavigation />
+      <div class="block">
+        <BackToCategoriesButton />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-    import ChoiceComponent from "@/components/ChoiceComponent";
-    import ShareQR from "@/components/ShareQR";
-    import TranslationTable from "@/components/TranslationTable";
-    import CategoryNavigation from "@/components/CategoryNavigation";
-    import BackToCategoriesButton from "@/components/BackButton";
-    import * as apiService from "@/services/api-service";
-    import CategoryChoiceComponent from "@/components/CategoryChoiceComponent";
+import ChoiceComponent from "@/components/ChoiceComponent";
+import TranslationTable from "@/components/TranslationTable";
+import CategoryNavigation from "@/components/CategoryNavigation";
+import BackToCategoriesButton from "@/components/BackButton";
+import CategoryChoiceComponent from "@/components/CategoryChoiceComponent";
+import PrintButton from "@/components/PrintButton";
+import ShareButton from "@/components/ShareButton";
+import SearchBox from "@/components/SearchBox";
 
-    export default {
-        name: "SearchableTable",
-        components: {
-            CategoryChoiceComponent,
-            BackToCategoriesButton, CategoryNavigation, TranslationTable, ChoiceComponent},
-        mounted() {
-            this.loadParams();
-            this.getListing();
-            apiService.listLanguages()
-                .then(response => {
-                    this.languages = response.results;
-                });
-            apiService.listCategories()
-                .then(response => {
-                    this.categories = response.results;
-                    // eslint-disable-next-line @typescript-eslint/camelcase
-                    this.categories.splice(0, 0, {name: 'All Categories', needs_original_phrase: true});
-                    // eslint-disable-next-line @typescript-eslint/camelcase
-                    // this.categories.push({name: 'Downloadables', needs_original_phrase: true});
-                });
-        },
-        data() {
-            return {
-                data: [],
-                downloadables: [],
-                languages: [],
-                categories: [],
-                selectedLanguage: null,
-                selectedCategory: null,
-                columns: [],
-                searchText: '',
-                isLoading: true,
-            }
-        },
-        watch: {
-            selectedLanguage: function () {
-                this.getListing();
-            },
-            selectedCategory: function () {
-                this.getListing();
-            },
-            $route() {
-                this.loadParams();
-            }
-        },
-        computed: {
-            visibleRows: function () {
-                if (this.searchText) {
-                    return this.data.filter(row => (row.phrase.content.toLowerCase().includes(this.searchText.toLowerCase())))
-                }
-                return this.data;
-            },
-            visibleDownloadables: function () {
-                if (this.searchText) {
-                    return this.downloadables.filter(row => (row.name.toLowerCase().includes(this.searchText.toLowerCase())))
-                }
-                return this.downloadables;
-            },
-            languageChoices: function () {
-                return this.languages.map(l => ({value: l.name, label: l.name + ' (' + l.native_name + ')'}));
-            },
-            categoryChoices: function () {
-                return this.categories.map(l => ({value: l.name, label: l.name}));
-            },
-            nextCategory() {
-                return this.categories[this.getCurrentCategoryIndex() + 1];
-            },
-            previousCategory() {
-                return this.categories[this.getCurrentCategoryIndex() - 1];
-            },
-            selectedCategoryObject() {
-                return this.categories.filter(c => c.name === this.selectedCategory)[0];
-            },
-            translationQuery() {
-                const query = {
-                    language: this.selectedLanguage
-                };
-
-                if (this.selectedCategory && this.selectedCategory !== 'All Categories') {
-                    query.category = this.selectedCategory;
-                }
-
-                return query;
-            },
-            printUrl() {
-                return process.env.VUE_APP_API_BASE_URL + '/printables/?' + apiService.toQueryString({
-                    // eslint-disable-next-line
-                    language__name: this.selectedLanguage,
-                    // eslint-disable-next-line
-                    phrase__category__name: (this.selectedCategory !== 'All Categories' ? this.selectedCategory: '')
-                });
-            }
-        },
-        methods: {
-            shareQr() {
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: ShareQR,
-                    hasModalCard: true,
-                    props: {
-                        url: window.location.href,
-                        title: `${this.selectedCategory} (${this.selectedLanguage})`
-                    }
-                });
-                this.$ga.event({
-                    eventCategory: 'Engagement',
-                    eventAction: 'Share',
-                    eventLabel: this.selectedLanguage
-                });
-            },
-            getListing() {
-                this.isLoading = true;
-
-                // prevent API calls
-                if (!this.selectedCategory || !this.selectedLanguage) {
-                    return;
-                }
-
-                // eslint-disable-next-line @typescript-eslint/no-this-alias
-                const component = this;
-
-                apiService.listTranslations(this.translationQuery)
-                    .then(response => {
-                        let i = 0;
-                        response.results.forEach(row => row.order = i++);
-                        this.data = response.results;
-                        component.isLoading = false;
-                    });
-
-                apiService.getDownloadables({language: this.selectedLanguage, category: this.selectedCategory})
-                    .then(response => {
-                        let i = 0;
-                        response.results.forEach(row => row.order = i++);
-                        this.downloadables = response.results;
-                        component.isLoading = false;
-                    });
-            },
-            loadParams() {
-                this.selectedLanguage = this.$route.params.language;
-                this.selectedCategory = this.$route.params.category;
-            },
-            getCurrentCategoryIndex() {
-                for (let i = 0; i < this.categories.length; i++) {
-                    if (this.categories[i].name === this.selectedCategory) {
-                        return i;
-                    }
-                }
-            },
-
-        }
+export default {
+  name: "SearchableTable",
+  components: {
+    CategoryChoiceComponent,
+    BackToCategoriesButton,
+    CategoryNavigation,
+    TranslationTable,
+    ChoiceComponent,
+    PrintButton,
+    ShareButton,
+    SearchBox
+  },
+  mounted() {
+    Promise.all([
+      this.$store.dispatch("loadCategories"),
+      this.$store.dispatch("loadLanguages")
+    ])
+      .then(() => this.loadParams())
+      .then(() => this.getListing());
+  },
+  watch: {
+    $route() {
+      this.loadParams();
+      this.getListing();
     }
+  },
+  computed: {
+    languageChoices: function() {
+      return this.$store.state.languages.map(l => ({
+        value: l.name,
+        label: l.name + " (" + l.native_name + ")"
+      }));
+    },
+    categoryChoices: function() {
+      return this.$store.state.categories.map(l => ({
+        value: l.name,
+        label: l.name
+      }));
+    }
+  },
+  methods: {
+    getListing() {
+      // prevent API calls
+      if (
+        !this.$store.state.currentCategory ||
+        !this.$store.state.currentLanguage
+      ) {
+        return;
+      }
+
+      this.$store.dispatch("loadTranslations");
+      this.$store.dispatch("loadDownloadables");
+    },
+    loadParams() {
+      this.$store.commit(
+        "SET_CURRENT_LANGUAGE_BY_NAME",
+        this.$route.params.language
+      );
+      this.$store.commit(
+        "SET_CURRENT_CATEGORY_BY_NAME",
+        this.$route.params.category
+      );
+    }
+  }
+};
 </script>
 
 <style>
-    @media screen and (max-width: 768px) {
-        .b-table td::before {
-            content: "" !important;
-            display: none;
-        }
+.center-block {
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        .b-table td {
-            text-align: left !important;
-            min-width: 90%;
-        }
-
-        .b-table td:nth-child(3) {
-            text-align: right !important;
-        }
-    }
-
-    .center-block {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .pre-line {
-        white-space: pre-line;
-    }
+.pre-line {
+  white-space: pre-line;
+}
 </style>

@@ -14,12 +14,6 @@
 </template>
 
 <script>
-    import TranslationPreviewModal from "@/components/TranslationPreviewModal";
-    import TranslationFeedback from "@/components/TranslationFeedback";
-    import {Howl, Howler} from "howler";
-    import BookmarkButton from "@/components/BookmarkButton";
-    import * as FavoritesService from "@/services/favorites-service";
-
     export default {
         name: "DownloadableCard",
         props: ['downloadable'],

@@ -22,6 +22,7 @@ export interface Translation {
     language: string;
     audio_clip?: string;
     special_note: string;
+    order? :number;
 }
 
 export interface Language {
@@ -78,6 +79,7 @@ export interface Downloadable {
     name: string;
     downloadable_file: string;
     description: string;
+    order?: number;
 }
 
 export interface DownloadableQuery {

@@ -5,7 +5,7 @@
         </div>
         <div class="block">
             <b-tabs v-model="activeTab" type="is-toggle" vertical id="category-choice-tabs">
-                <b-tab-item v-for="section of sections" :key="section.id" :label="section.name">
+                <b-tab-item v-for="section of $store.state.sections" :key="section.id" :label="section.name">
                     <div class="block">
                         <b-button class="fixed-button" size="is-medium" tag="router-link" :to="getPath('All Categories')"
                                   type="is-light">All Categories
@@ -27,18 +27,17 @@
 
 <script>
     import BackToCategoriesButton from "@/components/BackButton";
-    import {getSections} from "@/services/api-service";
 
     export default {
         name: "CategoryChoiceComponent",
         components: {BackToCategoriesButton},
         data() {
             return {
-                sections: [],
                 activeTab: null
             }
         },
         watch: {
+            // eslint-disable-next-line
             activeTab: function (newTab, oldTab) {
                 localStorage.setItem('activeSectionTab', newTab);
             }
@@ -51,9 +50,7 @@
                 return this.$route.path + (this.$route.path.endsWith('/') ? '' : '/') + value;
             },
             loadSections() {
-                getSections().then(response => {
-                    this.sections = response.results;
-
+                this.$store.dispatch('loadSections').then( () => {
                     const activeTab = localStorage.getItem('activeSectionTab');
 
                     if (activeTab === null) {

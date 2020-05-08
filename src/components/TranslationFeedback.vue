@@ -84,7 +84,7 @@
             },
             submit() {
                 apiService.postTranslationFeedback(this.postData)
-                    .then(response => {
+                    .then(() => {
                         this.submitted = true;
                         this.failed = false;
                         this.$ga.event({
@@ -92,7 +92,7 @@
                             eventAction: 'Form Submission Success'
                         });
                     })
-                    .catch(error => {
+                    .catch(() => {
                         this.submitted = true;
                         this.failed = true;
                         this.$ga.event({

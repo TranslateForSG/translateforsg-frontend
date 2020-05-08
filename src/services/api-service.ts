@@ -18,6 +18,7 @@ export const apiClient = axios.create({
     }
 });
 
+// eslint-disable-next-line
 export const toQueryString = (params: any) => {
     return Object.keys(params).map(key => key + '=' + params[key]).join('&');
 }
