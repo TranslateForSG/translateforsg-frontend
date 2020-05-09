@@ -6,6 +6,8 @@ import ContributorList from "@/views/ContributorList.vue";
 import FavoriteList from "@/views/FavoriteList.vue";
 import DownloadableTable from "@/components/DownloadableTable.vue";
 import ContactUs from "@/views/ContactUs.vue";
+import TheStory from "@/views/TheStory.vue";
+import Disclaimer from "@/views/Disclaimer.vue";
 
 Vue.use(VueRouter);
 
@@ -19,6 +21,16 @@ const routes: Array<RouteConfig> = [
         path: '/thanks',
         name: 'Say Thanks',
         component: SayThanks
+    },
+    {
+        path: '/about',
+        name: 'About Us',
+        component: TheStory
+    },
+    {
+        path: '/disclaimer',
+        name: 'Disclaimer',
+        component: Disclaimer
     },
     {
         path: '/contributors',

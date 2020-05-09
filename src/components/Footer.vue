@@ -1,17 +1,9 @@
 <template>
     <div class="footer">
-        <p>Developed, hosted and maintained by <a href="https://adhikary.net">Aniruddha Adhikary (Ani)</a>.</p>
-        <p>The
-            <router-link to="/contributors">most amazing people on the planet</router-link>
-            contributed the Content, feedback and design.
+        <p>Built with ❤️ in 🇸🇬 by <a href="https://adhikary.net">Ani</a>.</p>
+        <p>The <router-link to="/contributors">most amazing people on the planet</router-link>
+            contributed the content, feedback and design.
         </p>
-        <br>
-        <div class="buttons has-addons-centered is-centered">
-            <b-button type="is-info" tag="a" href="https://t.me/translateforsg" target="_blank" icon-left="telegram">Telegram Updates</b-button>
-        </div>
-        <p>Open Source. Source code available on
-            <a href="https://github.com/aniruddha-adhikary/translateforsg-frontend">GitHub</a></p>
-        <p>This spontaneous volunteer-driven project is not affiliated to any organization.</p>
         <br>
         <p>Copyright &copy; 2020 TranslateForSG Volunteers and Contributors</p>
     </div>

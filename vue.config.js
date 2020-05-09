@@ -1,8 +1,9 @@
 module.exports = {
     pwa: {
         name: 'TranslateForSG',
+        workboxPluginMode: 'InjectManifest',
         workboxOptions: {
-            skipWaiting: true
+            swSrc: 'public/service-worker.js'
         },
     }
 };
