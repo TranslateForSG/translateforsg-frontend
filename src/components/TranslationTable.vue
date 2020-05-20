@@ -29,7 +29,7 @@
             </div>
         </div>
         <div v-if="viewing === 'All' || viewing === 'Downloads'">
-            <div v-for="downloadable of visibleDownloadables"
+            <div v-for="downloadable of $store.getters.getVisibleDownloadables()"
                  :key="downloadable.id"
                  class="translation-card">
                 <DownloadableCard :downloadable="downloadable"/>
@@ -46,7 +46,7 @@
     export default {
         name: "TranslationTable",
         components: {TranslationCard, DownloadableCard},
-        props: ['downloadables', 'visibleDownloadables'],
+        props: [],
         data() {
             return {
                 favoriteTranslationIds: [],
