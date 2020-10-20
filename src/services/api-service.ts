@@ -23,19 +23,19 @@ export const toQueryString = (params: any) => {
     return Object.keys(params).map(key => key + '=' + params[key]).join('&');
 }
 
-export const listLanguages = async (page = 1) => {
+export const listLanguages = async () => {
     const requestUrl = `/api/v1/languages.json`;
     const response = await apiClient.get<ApiResponse<Language>>(requestUrl);
     return response.data;
 }
 
-export const listCategories = async (page = 1) => {
+export const listCategories = async () => {
     const requestUrl = `/api/v1/categories.json`;
     const response = await apiClient.get<ApiResponse<Category>>(requestUrl);
     return response.data;
 }
 
-export const listContributors = async (page = 1) => {
+export const listContributors = async () => {
     const requestUrl = `/api/v1/contributors.json`;
     const response = await apiClient.get<ApiResponse<Contributor>>(requestUrl);
     return response.data;

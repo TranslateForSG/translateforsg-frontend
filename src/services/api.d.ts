@@ -22,7 +22,7 @@ export interface Translation {
     language: string;
     audio_clip?: string;
     special_note: string;
-    order? :number;
+    order? : number;
 }
 
 export interface Language {
