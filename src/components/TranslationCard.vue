@@ -14,7 +14,7 @@
                 {{ row.romanized }}
             </p>
             <div class="buttons has-addons-centered is-centered">
-                <b-button class="is-left" icon-left="alert-octagon" type="is-dark" @click="openFeedback(row)"></b-button>
+                <!-- <b-button class="is-left" icon-left="alert-octagon" type="is-dark" @click="openFeedback(row)"></b-button> -->
                 <b-button icon-left="video" type="is-info" @click="openPreview(row)">View</b-button>
                 <b-button icon-left="play" type="is-primary"
                           @click="playAudio(row)"

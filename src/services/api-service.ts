@@ -24,19 +24,19 @@ export const toQueryString = (params: any) => {
 }
 
 export const listLanguages = async (page = 1) => {
-    const requestUrl = `/api/v1/languages/?page=${page}`;
+    const requestUrl = `/api/v1/languages.json`;
     const response = await apiClient.get<ApiResponse<Language>>(requestUrl);
     return response.data;
 }
 
 export const listCategories = async (page = 1) => {
-    const requestUrl = `/api/v1/categories/?page=${page}`;
+    const requestUrl = `/api/v1/categories.json`;
     const response = await apiClient.get<ApiResponse<Category>>(requestUrl);
     return response.data;
 }
 
 export const listContributors = async (page = 1) => {
-    const requestUrl = `/api/v1/contributors/?page=${page}`;
+    const requestUrl = `/api/v1/contributors.json`;
     const response = await apiClient.get<ApiResponse<Contributor>>(requestUrl);
     return response.data;
 }
@@ -45,23 +45,18 @@ export const listTranslations = async (query: TranslationQuery) => {
     // eslint-disable-next-line
     const queryParams: any = {};
 
+    // if (query.search) {
+    //     queryParams['search'] = query.search;
+    // }
+
+    // if (query.phrases) {
+    //     queryParams['phrases'] = query.phrases;
+    // }
+
+    let requestUrl = `/api/v1/${query.language}/All.json`;
     if (query.category) {
-        queryParams['phrase__category__name'] = query.category;
+        requestUrl = `/api/v1/${query.language}/${query.category}.json`;
     }
-
-    if (query.language) {
-        queryParams['language__name'] = query.language;
-    }
-
-    if (query.search) {
-        queryParams['search'] = query.search;
-    }
-
-    if (query.phrases) {
-        queryParams['phrases'] = query.phrases;
-    }
-
-    const requestUrl = '/api/v1/translations/?' + toQueryString(queryParams);
     const response = await apiClient.get<ApiResponse<Translation>>(requestUrl);
     return response.data;
 };
@@ -74,14 +69,16 @@ export const postTranslationFeedback = async (translationFeedback: TranslationFe
 }
 
 export const getDownloadables = async (config: DownloadableQuery) => {
-    // eslint-disable-next-line
-    const requestUrl = '/api/v1/downloadables/?' + toQueryString({language__name: config.language || '', search: config.search || '', category__name: config.category || ''});
+    let requestUrl = `/api/v1/downloadables/${config.language}/All.json`;
+    if (config.category) {
+        requestUrl = `/api/v1/downloadables/${config.language}/${config.category}.json`;
+    }
     const response = await apiClient.get<ApiResponse<Downloadable>>(requestUrl);
     return response.data;
 }
 
 export const getSections = async () => {
-    const requestUrl = '/api/v1/sections/';
+    const requestUrl = '/api/v1/sections.json';
     const response = await apiClient.get<ApiResponse<Section>>(requestUrl);
     return response.data;
 }
