@@ -9,9 +9,6 @@
       v-if="$store.state.currentCategory && $store.state.currentLanguage"
       style="width: 100%"
     >
-      <div class="block">
-        <SearchBox />
-      </div>
       <CategoryNavigation />
       <TranslationTable />
       <br />
@@ -29,7 +26,6 @@ import TranslationTable from "@/components/TranslationTable";
 import CategoryNavigation from "@/components/CategoryNavigation";
 import BackToCategoriesButton from "@/components/BackButton";
 import CategoryChoiceComponent from "@/components/CategoryChoiceComponent";
-import SearchBox from "@/components/SearchBox";
 
 export default {
   name: "SearchableTable",
@@ -38,8 +34,7 @@ export default {
     BackToCategoriesButton,
     CategoryNavigation,
     TranslationTable,
-    ChoiceComponent,
-    SearchBox
+    ChoiceComponent
   },
   mounted() {
     Promise.all([
